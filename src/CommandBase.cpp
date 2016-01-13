@@ -3,15 +3,16 @@
 
 // Initialize a single static instance of all of your subsystems to NULL
 OI* CommandBase::oi = NULL;
+DriveTrain* CommandBase::drivetrain = NULL;
+DataLogger* CommandBase::datalogger = NULL;
 
 CommandBase::CommandBase(char const *name): Command(name) {}
 
 CommandBase::CommandBase(): Command() {}
 
-DriveTrain* CommandBase::drivetrain = NULL;
-
 void CommandBase::init()
 {
 	drivetrain = new DriveTrain();
 	oi = new OI();
+	datalogger = new DataLogger();
 }
