@@ -1,8 +1,8 @@
 #include "DriveTrain.h"
 #include "../RobotMap.h"
+#include "math.h"
 
-DriveTrain::DriveTrain() :
-		Subsystem("ExampleSubsystem")
+DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 {
 	front_left_motor = new Victor(front_left_motor_port);
 	front_right_motor = new Victor(front_right_motor_port);
