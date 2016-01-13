@@ -1,0 +1,26 @@
+#ifndef ROBOTMAP_H
+#define ROBOTMAP_H
+
+#include "WPILib.h"
+
+/**
+ * The RobotMap is a mapping from the ports sensors and actuators are wired into
+ * to a variable name. This provides flexibility changing wiring, makes checking
+ * the wiring easier and significantly reduces the number of magic numbers
+ * floating around.
+ */
+ 
+ // drivetrain motors go here, currently set up to assume 4 motor
+#define front_left_motor_port 	0
+#define front_right_motor_port 	1
+#define rear_left_motor_port 	2
+#define rear_right_motor_port 	3
+
+#define ANGLE_CORRECTION 5; // offsets straight by x degrees clockwise
+// TODO VECTORIZE JOYSTICK INPUTS
+
+// Pneumatic port configuration
+#define CYLINDER_PORT0 0 // Gripper solenoid wired to port 0 on pneumatic break-out card
+#define CYLINDER_PORT1 1 // Release solenoid wired to port 1 on pneumatic break-out card
+
+#endif
