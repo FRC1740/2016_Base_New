@@ -5,6 +5,7 @@
 OI* CommandBase::oi = NULL;
 DriveTrain* CommandBase::drivetrain = NULL;
 DataLogger* CommandBase::datalogger = NULL;
+Piston*	CommandBase::piston = NULL;
 
 CommandBase::CommandBase(char const *name): Command(name) {}
 
@@ -15,4 +16,5 @@ void CommandBase::init()
 	drivetrain = new DriveTrain();
 	oi = new OI();
 	datalogger = new DataLogger();
+	piston = new Piston();
 }

@@ -1,0 +1,11 @@
+sysprops.xml
+*.py[cod]
+
+# C extensions
+*.o
+*.d
+*.out
+*.c
+FRCUserProgram
+*.settings
+/Debug/
