@@ -11,10 +11,11 @@
  */
  
  // drivetrain motors go here, currently set up to assume 4 motor
-#define front_left_motor_port 	0
-#define front_right_motor_port 	1
-#define rear_left_motor_port 	2
-#define rear_right_motor_port 	3
+#define front_left_motor_port 0
+#define front_right_motor_port 1
+#define rear_left_motor_port 2
+#define rear_right_motor_port 3
+#define UTILITY_MOTOR 4
 
 #define ANGLE_CORRECTION 5; // offsets straight by x degrees clockwise
 // TODO VECTORIZE JOYSTICK INPUTS
