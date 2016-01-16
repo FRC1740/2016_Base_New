@@ -9,14 +9,14 @@ Piston::Piston() : Subsystem("Piston")
 
 void Piston::Extend()
 {
-	s0->Set(true);
-	s1->Set(false);
+	s0->Set(false);
+	s1->Set(true);
 	isOpen = true;
 }
 
 void Piston::Retract()
 {
 	isOpen = false;
-	s0->Set(false);
-	s1->Set(true);
+	s0->Set(true);
+	s1->Set(false);
 }
