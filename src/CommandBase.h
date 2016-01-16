@@ -5,7 +5,7 @@
 #include "Commands/Command.h"
 #include "OI.h"
 #include "WPILib.h"
-
+#include "Subsystems/Piston.h"
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/DataLogger.h"
 
@@ -24,6 +24,7 @@ public:
 	static OI *oi;
 	static DataLogger *datalogger;
 	static DriveTrain *drivetrain;
+	static Piston *piston;
 };
 
 #endif
