@@ -8,6 +8,7 @@
 #include "Subsystems/Utility.h"
 #include "Subsystems/Piston.h"
 #include "Subsystems/DriveTrain.h"
+#include "Subsystems/RangeFinder.h"
 #include "Subsystems/DataLogger.h"
 
 /**
@@ -27,6 +28,7 @@ public:
 	static DriveTrain *drivetrain;
 	static Piston *piston;
 	static Utility *utility;
+	static RangeFinder *rangefinder;
 };
 
 #endif
