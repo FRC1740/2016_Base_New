@@ -30,8 +30,8 @@ private:
 	Command *teleopcommand;
 	LiveWindow *lw;
 	Compressor *compressor;
-	SendableChooser *drivemodechooser;
-	SendableChooser *autonomouschooser;
+	frc::SendableChooser<frc::Command*> *drivemodechooser;
+	frc::SendableChooser<frc::Command*> *autonomouschooser;
 
 	virtual void RobotInit()
 	{
@@ -40,7 +40,7 @@ private:
 		CommandBase::init();
 //		SmartDashboard::init(); // i guess we init the smart dash here.... idk where else to do it, idk if its necessary
 
-		drivemodechooser = new SendableChooser();
+		drivemodechooser = new SendableChooser<frc::Command*>;
 		drivemodechooser->AddObject("Standard Tank Drive", new StandardTankDrive());
 		drivemodechooser->AddObject("2 Joystick Mecanum", new MecanumTankDrive());
 		drivemodechooser->AddDefault("3 Axis Drive (1 Joystick)", new ThreeAxisDrive());
@@ -48,7 +48,7 @@ private:
 		SmartDashboard::PutData("Drive Mode", drivemodechooser);
 
 //		->Log("added objects", VERBOSE_MESSAGE);
-		autonomouschooser = new SendableChooser();
+		autonomouschooser = new SendableChooser<frc::Command*>;
 		autonomouschooser->AddObject("Basic Auto: Drive Forward", new BasicAuto());
 
 //		autonomouschooser->AddObject("Testing move", new Move(270, .3, 5));
