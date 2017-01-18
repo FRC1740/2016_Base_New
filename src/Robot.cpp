@@ -30,8 +30,8 @@ private:
 	Command *teleopcommand;
 	LiveWindow *lw;
 	Compressor *compressor;
-	frc::SendableChooser<frc::Command*> *drivemodechooser;
-	frc::SendableChooser<frc::Command*> *autonomouschooser;
+	SendableChooser<Command*> *drivemodechooser;
+	SendableChooser<Command*> *autonomouschooser;
 
 	virtual void RobotInit()
 	{
@@ -40,7 +40,7 @@ private:
 		CommandBase::init();
 //		SmartDashboard::init(); // i guess we init the smart dash here.... idk where else to do it, idk if its necessary
 
-		drivemodechooser = new SendableChooser<frc::Command*>;
+		drivemodechooser = new SendableChooser<Command*>;
 		drivemodechooser->AddObject("Standard Tank Drive", new StandardTankDrive());
 		drivemodechooser->AddObject("2 Joystick Mecanum", new MecanumTankDrive());
 		drivemodechooser->AddDefault("3 Axis Drive (1 Joystick)", new ThreeAxisDrive());
@@ -48,11 +48,11 @@ private:
 		SmartDashboard::PutData("Drive Mode", drivemodechooser);
 
 //		->Log("added objects", VERBOSE_MESSAGE);
-		autonomouschooser = new SendableChooser<frc::Command*>;
-		autonomouschooser->AddObject("Basic Auto: Drive Forward", new BasicAuto());
+		autonomouschooser = new SendableChooser<Command*>;
+		autonomouschooser->AddDefault("Basic Auto: Drive Forward", new BasicAuto());
 
 //		autonomouschooser->AddObject("Testing move", new Move(270, .3, 5));
-		autonomouschooser->AddDefault("Do Nothing", new DoNothing(15));
+		autonomouschooser->AddObject("Do Nothing", new DoNothing(15));
 //		autonomouschooser->AddObject("Yellow Totes", new YellowToteAuto());
 		SmartDashboard::PutData("Autonomous", autonomouschooser);
 
@@ -62,7 +62,7 @@ private:
 //		CameraServer::GetInstance()->SetQuality(100);
 //		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
 
-		compressor = new Compressor();
+//		compressor = new Compressor();
 
 	}
 	
@@ -70,7 +70,7 @@ private:
 	{
 //		->Log("AutonomousInit()",STATUS_MESSAGE);
 //		->Log("Starting Compressor", STATUS_MESSAGE);
-		compressor->Start();
+//		compressor->Start();
 		autonomousCommand = (Command *) autonomouschooser->GetSelected();
 		autonomousCommand->Start();
 	}

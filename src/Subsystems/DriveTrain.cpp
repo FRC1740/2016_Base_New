@@ -4,10 +4,10 @@
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 {
-	front_left_motor = new TalonSRX(front_left_motor_port);
-	front_right_motor = new TalonSRX(front_right_motor_port);
-	rear_left_motor = new TalonSRX(rear_left_motor_port);
-	rear_right_motor = new TalonSRX(rear_right_motor_port);
+	front_left_motor = new CANTalon(front_left_motor_port);
+	front_right_motor = new CANTalon(front_right_motor_port);
+	rear_left_motor = new CANTalon(rear_left_motor_port);
+	rear_right_motor = new CANTalon(rear_right_motor_port);
 }
 
 void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_left_speed, float rear_right_speed)
