@@ -6,7 +6,7 @@ OI* CommandBase::oi = NULL;
 DriveTrain* CommandBase::drivetrain = NULL;
 DataLogger* CommandBase::datalogger = NULL;
 Piston*	CommandBase::piston = NULL;
-Utility* CommandBase::utility = NULL;
+// Utility* CommandBase::utility = NULL;
 RangeFinder* CommandBase::rangefinder = NULL;
 
 CommandBase::CommandBase(char const *name): Command(name) {}
@@ -19,6 +19,6 @@ void CommandBase::init()
 	oi = new OI();
 	datalogger = new DataLogger();
 	piston = new Piston();
-	utility = new Utility();
+//	utility = new Utility();
 	rangefinder = new RangeFinder();
 }

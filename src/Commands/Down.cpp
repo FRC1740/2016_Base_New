@@ -2,13 +2,13 @@
 
 Down::Down()
 {
-	Requires(utility);
+//	Requires(utility);
 }
 
 void Down::Initialize()
 {
 	datalogger->Log("Down::Initialize()", STATUS_MESSAGE);
-	utility->utility_motor->Set(-1 * SPEED);
+//	utility->utility_motor->Set(-1 * SPEED);
 }
 
 void Down::Execute()
@@ -24,11 +24,11 @@ bool Down::IsFinished()
 void Down::End()
 {
 	datalogger->Log("Down::End()", ERROR_MESSAGE);
-	utility->utility_motor->Set(0);
+//	utility->utility_motor->Set(0);
 }
 
 void Down::Interrupted()
 {
 	datalogger->Log("Down::Interrupted", STATUS_MESSAGE);
-	utility->utility_motor->Set(0);
+//	utility->utility_motor->Set(0);
 }
