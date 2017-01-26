@@ -1,20 +1,33 @@
 #include "DriveTrain.h"
 #include "../RobotMap.h"
+// #include "ADIS16448_IMU.h"
 #include "math.h"
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 {
-	front_left_motor = new CANTalon(front_left_motor_port);
-	front_right_motor = new CANTalon(front_right_motor_port);
-	rear_left_motor = new CANTalon(rear_left_motor_port);
-	rear_right_motor = new CANTalon(rear_right_motor_port);
+	front_left_motor = new CANTalon(FRONT_LEFT_MOTOR_PORT);
+	front_right_motor = new CANTalon(FRONT_RIGHT_MOTOR_PORT);
+	rear_left_motor = new CANTalon(REAR_LEFT_MOTOR_PORT);
+	rear_right_motor = new CANTalon(REAR_RIGHT_MOTOR_PORT);
+
+	gyro = new AnalogGyro(DRIVE_GYRO_PORT);
+	gyro->Reset();
+
+	// New Inertial Measurement Unit for 2017. Plugs directly into RoboRio. Woo hoo!
+//	imu = new ADIS16448_IMU;
+
 }
 
 void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_left_speed, float rear_right_speed)
 {
-	front_left_motor->Set(front_left_speed); // should the -1 be taken care of here?, reverses the motors since they are on the opposite side of the robot
-	front_right_motor->Set(-1 * front_right_speed);  // ktk - one big drive command because you can use pointers to directly control the motors from other objects eg. drivetrain->frontrightmotor->Set(1);
+
+	// This drivetrain code assumes motors are mounted INBOARD and shafts point OUTBOARD
+	// Left side motors fwd = robot fwd...
+	front_left_motor->Set(front_left_speed);
 	rear_left_motor->Set(rear_left_speed);
+
+	// Invert the direction of the motors on the right side so motor reverse = robot fwd
+	front_right_motor->Set(-1 * front_right_speed);
 	rear_right_motor->Set(-1 * rear_right_speed);
 }
 

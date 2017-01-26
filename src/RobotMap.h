@@ -12,14 +12,23 @@
  
 // Updated for 2017 Steamworks
 // drivetrain motors go here, currently set up to assume 4 motor
-#define front_left_motor_port 3
-#define front_right_motor_port 0
-#define rear_left_motor_port 1
-#define rear_right_motor_port 2
-// #define UTILITY_MOTOR_PORT 5
+
+// Use the following Talon ID for the Mecanum Drive Practice 'bot
+#define FRONT_LEFT_MOTOR_PORT 3
+#define FRONT_RIGHT_MOTOR_PORT 4
+#define REAR_LEFT_MOTOR_PORT 1
+#define REAR_RIGHT_MOTOR_PORT 2
+
+// Drivetrain Gyro for Steering Correction
+#define DRIVE_GYRO_PORT 0
 
 #define ANGLE_CORRECTION 5; // offsets straight by x degrees clockwise
 // TODO VECTORIZE JOYSTICK INPUTS
+
+// Rangefinder Subsystem
+#define LIGHT_BAR_RELAY_PORT 1 // Compiler blows chunks if using relay port 0
+#define GEAR_SONAR_PORT_A 8  // CRE FIXME: Are these Analog Ports?
+#define GEAR_SONAR_PORT_B 9
 
 // Pneumatic port configuration
 #define CYLINDER_PORT0 0 // Gripper solenoid wired to port 0 on pneumatic break-out card

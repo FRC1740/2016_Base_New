@@ -10,6 +10,7 @@
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/RangeFinder.h"
 #include "Subsystems/DataLogger.h"
+#include "Subsystems/Camera.h"
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -29,6 +30,7 @@ public:
 	static Piston *piston;
 	static Utility *utility;
 	static RangeFinder *rangefinder;
+	static Camera *camera;
 };
 
 #endif
