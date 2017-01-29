@@ -14,10 +14,13 @@
 // drivetrain motors go here, currently set up to assume 4 motor
 
 // Use the following Talon ID for the Mecanum Drive Practice 'bot
-#define FRONT_LEFT_MOTOR_PORT 3
-#define FRONT_RIGHT_MOTOR_PORT 4
-#define REAR_LEFT_MOTOR_PORT 1
-#define REAR_RIGHT_MOTOR_PORT 2
+#define FRONT_LEFT_MOTOR_ID 3
+#define FRONT_RIGHT_MOTOR_ID 4
+#define REAR_LEFT_MOTOR_ID 1
+#define REAR_RIGHT_MOTOR_ID 2
+#define CLIMBER_MOTOR_ID 5
+#define SHOOTER_MOTOR_ID 6
+#define AIM_MOTOR_ID 7
 
 // Drivetrain Gyro for Steering Correction
 #define DRIVE_GYRO_PORT 0
@@ -27,8 +30,8 @@
 
 // Rangefinder Subsystem
 #define LIGHT_BAR_RELAY_PORT 1 // Compiler blows chunks if using relay port 0
-#define GEAR_SONAR_PORT_A 8  // CRE FIXME: Are these Analog Ports?
-#define GEAR_SONAR_PORT_B 9
+#define BOILER_RANGE_PORT_A 8  // CRE FIXME: Are these Analog Ports?
+#define BOILER_RANGE_PORT_B 9
 
 // Pneumatic port configuration
 #define CYLINDER_PORT0 0 // Gripper solenoid wired to port 0 on pneumatic break-out card

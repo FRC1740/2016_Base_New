@@ -4,10 +4,8 @@
 
 RangeFinder::RangeFinder() : Subsystem("RangeFinder")
 {
-	rangefinder_gear = new Ultrasonic(GEAR_SONAR_PORT_A, GEAR_SONAR_PORT_B);
-	rangefinder_gear->SetAutomaticMode(true);
-//	rangefinder_bottom = new Ultrasonic(6,7);
-//	rangefinder_bottom->SetAutomaticMode(true);
+	rangeBoiler = new Ultrasonic(BOILER_RANGE_PORT_A, BOILER_RANGE_PORT_B);
+	rangeBoiler->SetAutomaticMode(true);
 	light = new Relay(LIGHT_BAR_RELAY_PORT);
 }
 

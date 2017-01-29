@@ -5,10 +5,10 @@
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 {
-	front_left_motor = new CANTalon(FRONT_LEFT_MOTOR_PORT);
-	front_right_motor = new CANTalon(FRONT_RIGHT_MOTOR_PORT);
-	rear_left_motor = new CANTalon(REAR_LEFT_MOTOR_PORT);
-	rear_right_motor = new CANTalon(REAR_RIGHT_MOTOR_PORT);
+	front_left_motor = new CANTalon(FRONT_LEFT_MOTOR_ID);
+	front_right_motor = new CANTalon(FRONT_RIGHT_MOTOR_ID);
+	rear_left_motor = new CANTalon(REAR_LEFT_MOTOR_ID);
+	rear_right_motor = new CANTalon(REAR_RIGHT_MOTOR_ID);
 
 	gyro = new AnalogGyro(DRIVE_GYRO_PORT);
 	gyro->Reset();

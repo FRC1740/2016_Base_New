@@ -1,5 +1,10 @@
+#include <Commands/CameraShowClimber.h>
 #include <Commands/CameraShowGear.h>
-#include <Commands/CameraShowLift.h>
+#include <Commands/Climb.h>
+#include <Commands/Descend.h>
+#include <Commands/Shoot.h>
+#include <Commands/AimUp.h>
+#include <Commands/AimDown.h>
 #include "OI.h"
 
 OI::OI()
@@ -20,10 +25,33 @@ OI::OI()
 	// Joystick 0 is the launchpad
 	launchPad = new Joystick(0);
 
-	lookAtLift = new JoystickButton(xboxController, 5);
-	lookAtGear = new JoystickButton(xboxController, 6);
+	// Camera Rotation
+	showClimber = new JoystickButton(xboxController, 5);
+	showGear = new JoystickButton(xboxController, 6);
 
-	lookAtLift->WhenPressed(new CameraShowLift());
-	lookAtGear->WhenPressed(new CameraShowGear());
+	showClimber->WhenPressed(new CameraShowClimber());
+	showGear->WhenPressed(new CameraShowGear());
+
+	// Shooter
+	shoot = new JoystickButton(xboxController, 2);
+	shoot->WhenPressed(new Shoot());
+
+	// Climb & Descend
+	climb = new JoystickButton(NESController, 2);
+	descend = new JoystickButton(NESController, 3);
+
+	climb->WhenPressed(new Climb());
+	descend->WhenPressed(new Descend());
+
+	// Shooter
+	shoot = new JoystickButton(xboxController, 1);
+	shoot->WhenPressed(new Shoot());
+
+	// Aim w/ NES Controller
+	aimUp = new JoystickButton(NESController, 9);
+	aimDn = new JoystickButton(NESController, 10);
+
+	aimUp->WhenPressed(new AimUp());
+	aimDn->WhenPressed(new AimDown());
 
 }

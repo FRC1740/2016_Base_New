@@ -11,7 +11,7 @@ void CameraShowGear::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void CameraShowGear::Execute() {
 
-	camera->Gear();
+	camera->showGear();
 	return;
 }
 

@@ -18,19 +18,19 @@ void Camera::InitDefaultCommand() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-void Camera::Gear()
+void Camera::showGear()
 {
 	// Rotates the camera fully left
 	Mount->Set(0.0);
 }
 
-void Camera::Lift()
+void Camera::showClimber()
 {
 	// Rotates the camera fully right
 	Mount->Set(1.0);
 }
 
-void Camera::Shooter()
+void Camera::showShooter()
 {
 	// Rotates the camera to be centered
 	Mount->Set(0.5);

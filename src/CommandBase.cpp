@@ -9,6 +9,8 @@ Piston*	CommandBase::piston = NULL;
 // Utility* CommandBase::utility = NULL;
 RangeFinder* CommandBase::rangefinder = NULL;
 Camera* CommandBase::camera = NULL;
+Climber* CommandBase::climber = NULL;
+Shooter* CommandBase::shooter = NULL;
 
 CommandBase::CommandBase(char const *name): Command(name) {}
 
@@ -23,4 +25,6 @@ void CommandBase::init()
 	camera = new Camera();
 //	utility = new Utility();
 	rangefinder = new RangeFinder();
+	climber = new Climber();
+	shooter = new Shooter();
 }
