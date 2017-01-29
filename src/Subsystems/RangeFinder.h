@@ -15,8 +15,8 @@ private:
 public:
 	RangeFinder();
 	void InitDefaultCommand();
-	Ultrasonic *rangefinder_bottom;
-	Ultrasonic *rangefinder_top;
+	Ultrasonic *rangeBoiler;
+//	Ultrasonic *rangeClimber;
 	void Light(unsigned int);
 };
 

@@ -13,7 +13,8 @@ Move::Move(int a, float s, double time)
 
 void Move::Initialize()
 {
-	// there must be a nicer way to do this, but this works -ktk
+	// TODO there must be a nicer way to do this, but this works -ktk
+	// CRE You're right, Kevin this is really ugly... Only used in auto mode?
 	float left, right;
 	if (angle <= 90){
 		left = 1;
@@ -31,6 +32,7 @@ void Move::Initialize()
 		left = (((360.0 - angle) / 90.0) * -2) + 1;
 		right = 1;
 	}
+	// The drivetrain->Go method has built-in reversal for motors on "wrong" side
 	drivetrain->Go(left * speed, right * speed, right * speed, left * speed);
 }
 

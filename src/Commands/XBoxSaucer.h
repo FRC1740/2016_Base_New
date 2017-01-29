@@ -1,5 +1,5 @@
-#ifndef XBOXDRIVE_H
-#define XBOXDRIVE_H
+#ifndef XBoxSaucer_H
+#define XBoxSaucer_H
 
 #include "../CommandBase.h"
 #include "WPILib.h"
@@ -7,15 +7,15 @@
 #define SCALE_TWIST 1.0 // Adjust these to suit drivers' preference
 #define SCALE_YAXIS 1.0
 #define SCALE_XAXIS 1.0
-#define DEADBAND_XAXIS .1 // Adjust these to prevent unwanted movement when input at rest
-#define DEADBAND_YAXIS .1
-#define DEADBAND_TWIST .3
+#define DEADBAND_XBOX_XAXIS .05 // Adjust these to prevent unwanted movement when input at rest
+#define DEADBAND_XBOX_YAXIS .05
+#define DEADBAND_XBOX_TWIST .1
 
-class XBoxDrive: public CommandBase
+class XBoxSaucer: public CommandBase
 {
 private:
 public:
-	XBoxDrive();
+	XBoxSaucer();
 	float GetX();
 	float GetY();
 	float GetTwist();
@@ -25,6 +25,8 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+	RobotDrive *m_robotDrive;		// RobotDrive object using four individual drive motors
+	float gyroAngle;
 };
 
 #endif

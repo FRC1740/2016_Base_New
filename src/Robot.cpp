@@ -7,20 +7,20 @@
 #include "Commands/MecanumTankDrive.h"
 #include "Commands/ThreeAxisDrive.h"
 #include "Commands/XBoxDrive.h"
+#include "Commands/XBoxSaucer.h"
 #include "CommandBase.h"
 
 
 
 /*
  *	Team 1740
- *	2015 Code
+ *	2017 Code
  *	Programming Staff:
- *	Lord Kevin "Hjax" Konrad: High Overlord of Programming and Python / C++ grand master
- *	Sire Henry Crain: Majordomo of Programming and Python / C++ master
- *	Lady Allison "armadillokake" Konrad: Queen of the Armadillos and C++ n00b
- *	Sir Jonathan Lei: Python / C++ dude
+ *
+ *	Trevor "TLB is better than BLT" Bacon...
+ *	New Mentor Sire Henry Crain: Majordomo of Programming and Python / C++ master
  *	Our Lord, Charles Estabrooks: Programming God and C / C++ savior
- *	Brian Healy the Eternal Champion: Programming God and Labview / TI-89 grand master
+ *
  */
 
 class CommandBasedRobot : public IterativeRobot {
@@ -30,8 +30,8 @@ private:
 	Command *teleopcommand;
 	LiveWindow *lw;
 	Compressor *compressor;
-	frc::SendableChooser<frc::Command*> *drivemodechooser;
-	frc::SendableChooser<frc::Command*> *autonomouschooser;
+	SendableChooser<Command*> *drivemodechooser;
+	SendableChooser<Command*> *autonomouschooser;
 
 	virtual void RobotInit()
 	{
@@ -40,29 +40,30 @@ private:
 		CommandBase::init();
 //		SmartDashboard::init(); // i guess we init the smart dash here.... idk where else to do it, idk if its necessary
 
-		drivemodechooser = new SendableChooser<frc::Command*>;
-		drivemodechooser->AddObject("Standard Tank Drive", new StandardTankDrive());
-		drivemodechooser->AddObject("2 Joystick Mecanum", new MecanumTankDrive());
-		drivemodechooser->AddDefault("3 Axis Drive (1 Joystick)", new ThreeAxisDrive());
-		drivemodechooser->AddObject("3 Axis Xbox Drive", new XBoxDrive());
+		drivemodechooser = new SendableChooser<Command*>;
+//		drivemodechooser->AddObject("Standard Tank Drive", new StandardTankDrive());
+//		drivemodechooser->AddObject("2 Joystick Mecanum", new MecanumTankDrive());
+		drivemodechooser->AddDefault("Xbox Standard", new XBoxDrive());
+		drivemodechooser->AddObject("3 Axis Joystick", new ThreeAxisDrive());
+		drivemodechooser->AddObject("Xbox Experimental", new XBoxSaucer());
 		SmartDashboard::PutData("Drive Mode", drivemodechooser);
 
 //		->Log("added objects", VERBOSE_MESSAGE);
-		autonomouschooser = new SendableChooser<frc::Command*>;
-		autonomouschooser->AddObject("Basic Auto: Drive Forward", new BasicAuto());
-
-//		autonomouschooser->AddObject("Testing move", new Move(270, .3, 5));
+		autonomouschooser = new SendableChooser<Command*>;
 		autonomouschooser->AddDefault("Do Nothing", new DoNothing(15));
-//		autonomouschooser->AddObject("Yellow Totes", new YellowToteAuto());
+		autonomouschooser->AddObject("MoveToBaseline", new BasicAuto());
+//		autonomouschooser->AddObject("Testing move", new Move(270, .3, 5));
 		SmartDashboard::PutData("Autonomous", autonomouschooser);
 
 		lw = LiveWindow::GetInstance();
 //		->Log("Starting robot!", VERBOSE_MESSAGE);
 //		->Flush();
-//		CameraServer::GetInstance()->SetQuality(100);
-//		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
+		cs::UsbCamera fwdCam = CameraServer::GetInstance()->StartAutomaticCapture(0);
+		// It is possible to use two cameras, but bandwidth will be an issue.
+//		cs::UsbCamera revCam = CameraServer::GetInstance()->StartAutomaticCapture(1);
 
-		compressor = new Compressor();
+
+//		compressor = new Compressor();
 
 	}
 	
@@ -70,7 +71,7 @@ private:
 	{
 //		->Log("AutonomousInit()",STATUS_MESSAGE);
 //		->Log("Starting Compressor", STATUS_MESSAGE);
-		compressor->Start();
+//		compressor->Start();
 		autonomousCommand = (Command *) autonomouschooser->GetSelected();
 		autonomousCommand->Start();
 	}
@@ -92,6 +93,7 @@ private:
 	virtual void TeleopPeriodic()
 	{
 		Scheduler::GetInstance()->Run();
+//		SmartDashboard::PutData("IMU", imu);
 	}
 
 	virtual void TestPeriodic()
