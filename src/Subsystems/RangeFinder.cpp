@@ -2,21 +2,18 @@
 #include "../RobotMap.h"
 #include "../Commands/RangeLight.h" // YOU MUST INCLUDE IT to set it as the default command
 
-#define LIGHT_BAR_RELAY_PORT 1 // Compiler blows chunks if using relay port 0
-
-RangeFinder::RangeFinder() :
-	Subsystem("RangeFinder")
+RangeFinder::RangeFinder() : Subsystem("RangeFinder")
 {
+	rangefinder_gear = new Ultrasonic(GEAR_SONAR_PORT_A, GEAR_SONAR_PORT_B);
+	rangefinder_gear->SetAutomaticMode(true);
 //	rangefinder_bottom = new Ultrasonic(6,7);
-//	rangefinder_top = new Ultrasonic(8,9);
-//	rangefinder_top->SetAutomaticMode(true);
 //	rangefinder_bottom->SetAutomaticMode(true);
-//	light = new Relay(LIGHT_BAR_RELAY_PORT);
+	light = new Relay(LIGHT_BAR_RELAY_PORT);
 }
 
 void RangeFinder::InitDefaultCommand()
 {
-//	SetDefaultCommand(new RangeLight());
+	SetDefaultCommand(new RangeLight());
 }
 
 void RangeFinder::Light(unsigned int state)

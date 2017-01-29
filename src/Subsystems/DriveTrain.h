@@ -3,11 +3,12 @@
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
 #include "CANTalon.h"
-// #include <TalonSRX.h>
+#include "AnalogGyro.h"
 
 class DriveTrain: public Subsystem
 {
 public:
+	AnalogGyro *gyro;
 	CANTalon *front_right_motor;
 	CANTalon *front_left_motor;
 	CANTalon *rear_right_motor;

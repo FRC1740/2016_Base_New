@@ -14,14 +14,14 @@ void RangeLight::Initialize()
 void RangeLight::Execute()
 {
 
-	if (rangefinder->rangefinder_bottom->GetRangeInches() < 11){
+	if (rangefinder->rangefinder_gear->GetRangeInches() < 6){
 		rangefinder->Light(1);
 	}
 	else {
 		rangefinder->Light(0);
 	}
-	SmartDashboard::PutNumber("Top Range:", rangefinder->rangefinder_top->GetRangeInches());
-	SmartDashboard::PutNumber("Bottom Range:", rangefinder->rangefinder_bottom->GetRangeInches());
+	SmartDashboard::PutNumber("Top Range:", rangefinder->rangefinder_gear->GetRangeInches());
+//	SmartDashboard::PutNumber("Bottom Range:", rangefinder->rangefinder_fuel->GetRangeInches());
 }
 
 bool RangeLight::IsFinished()

@@ -28,24 +28,21 @@ void ThreeAxisDrive::Execute()
 	}
 	if (oi->threeAxisJoystick->GetTwist() > DEADBAND_TWIST || oi->threeAxisJoystick->GetTwist() < -DEADBAND_TWIST)  // Deadband
 	{
-		t = SCALE_TWIST  * oi->threeAxisJoystick->GetTwist();
+		t = JOYSTICK_SCALE_TWIST  * oi->threeAxisJoystick->GetTwist();
 	}
 	fl = - y + t + x; // Front Left Wheel
 	fr = - y - t - x; // Front Right Wheel
 	rl = - y + t - x; // Rear Left Wheel
 	rr = - y - t + x; // Rear Right Wheel
 
-#if (DEBUG_LEVEL == 4) // CRE Not sure if this is legit
-
-	if (gfl!=fl || gfr!=fr || grl!=rl || grr!=rr) // Only log the movement if something changed
+	// Only log the movement if something changed
+	if (gfl!=fl || gfr!=fr || grl!=rl || grr!=rr)
 	{
 		gfl=fl; gfr=fr; grl=rl; grr=rr;
 		char *data = new char[128];
 		sprintf(data, "We're moving: %2.1f, %2.1f, %2.1f, %2.1f; X=%2.1f, Y=%2.1f, Twist=%2.1f", fl, fr, rl, rr, x, y, t);
 		datalogger->Log(data, DEBUG_MESSAGE);
 	}
-
-#endif
 
 	drivetrain->Go(fl,fr,rl,rr);
 	/*
