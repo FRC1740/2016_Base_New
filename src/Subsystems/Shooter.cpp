@@ -2,6 +2,7 @@
 #include "../RobotMap.h"
 
 #define AIM_POWER 1.0
+#define SHOOT_POWER 0.5
 
 Shooter::Shooter() : Subsystem("ExampleSubsystem") {
 
@@ -19,7 +20,7 @@ void Shooter::InitDefaultCommand() {
 
 void Shooter::shoot()
 {
-	shootMotor->Set(-AIM_POWER);
+	shootMotor->Set(-SHOOT_POWER);
 }
 void Shooter::aimUp()
 {
