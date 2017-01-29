@@ -14,10 +14,10 @@ private:
 public:
 	Camera();
 	void InitDefaultCommand();
-	void Gear();
-	void Shooter();
+	void showGear();
+	void showShooter();
+	void showClimber();
 	void Center();
-	void Lift();
 };
 
 #endif  // Camera_H

@@ -41,25 +41,25 @@ private:
 //		SmartDashboard::init(); // i guess we init the smart dash here.... idk where else to do it, idk if its necessary
 
 		drivemodechooser = new SendableChooser<Command*>;
-		drivemodechooser->AddObject("Standard Tank Drive", new StandardTankDrive());
-		drivemodechooser->AddObject("2 Joystick Mecanum", new MecanumTankDrive());
-		drivemodechooser->AddDefault("3 Axis Joystick", new ThreeAxisDrive());
-		drivemodechooser->AddObject("Xbox Standard", new XBoxDrive());
+//		drivemodechooser->AddObject("Standard Tank Drive", new StandardTankDrive());
+//		drivemodechooser->AddObject("2 Joystick Mecanum", new MecanumTankDrive());
+		drivemodechooser->AddDefault("Xbox Standard", new XBoxDrive());
+		drivemodechooser->AddObject("3 Axis Joystick", new ThreeAxisDrive());
 		drivemodechooser->AddObject("Xbox Experimental", new XBoxSaucer());
 		SmartDashboard::PutData("Drive Mode", drivemodechooser);
 
 //		->Log("added objects", VERBOSE_MESSAGE);
 		autonomouschooser = new SendableChooser<Command*>;
-		autonomouschooser->AddDefault("MoveToBaseline", new BasicAuto());
-
+		autonomouschooser->AddDefault("Do Nothing", new DoNothing(15));
+		autonomouschooser->AddObject("MoveToBaseline", new BasicAuto());
 //		autonomouschooser->AddObject("Testing move", new Move(270, .3, 5));
-		autonomouschooser->AddObject("Do Nothing", new DoNothing(15));
 		SmartDashboard::PutData("Autonomous", autonomouschooser);
 
 		lw = LiveWindow::GetInstance();
 //		->Log("Starting robot!", VERBOSE_MESSAGE);
 //		->Flush();
 		cs::UsbCamera fwdCam = CameraServer::GetInstance()->StartAutomaticCapture(0);
+		// It is possible to use two cameras, but bandwidth will be an issue.
 //		cs::UsbCamera revCam = CameraServer::GetInstance()->StartAutomaticCapture(1);
 
 

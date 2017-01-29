@@ -11,6 +11,8 @@
 #include "Subsystems/RangeFinder.h"
 #include "Subsystems/DataLogger.h"
 #include "Subsystems/Camera.h"
+#include "Subsystems/Climber.h"
+#include "Subsystems/Shooter.h"
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -31,6 +33,8 @@ public:
 	static Utility *utility;
 	static RangeFinder *rangefinder;
 	static Camera *camera;
+	static Shooter *shooter;
+	static Climber *climber;
 };
 
 #endif
