@@ -1,6 +1,5 @@
 #include "DriveTrain.h"
 #include "../RobotMap.h"
-// #include "ADIS16448_IMU.h"
 #include "math.h"
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain")
@@ -12,9 +11,6 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 
 	gyro = new AnalogGyro(DRIVE_GYRO_PORT);
 	gyro->Reset();
-
-	// New Inertial Measurement Unit for 2017. Plugs directly into RoboRio. Woo hoo!
-//	imu = new ADIS16448_IMU;
 
 }
 

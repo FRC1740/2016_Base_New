@@ -29,9 +29,12 @@ public:
 	// Shoot a whiffle ball
 	JoystickButton *shoot;
 
+	// FIXME: NO AIMING/FIXED SHOOTER MOUNT
 	// Aim with NES Controller
 	JoystickButton *aimUp;
 	JoystickButton *aimDn;
+
+	JoystickButton *light;
 
 //	JoystickButton *threeAxis5;
 //	JoystickButton *threeAxis6;

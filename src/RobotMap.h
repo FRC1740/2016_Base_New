@@ -29,9 +29,9 @@
 // TODO VECTORIZE JOYSTICK INPUTS
 
 // Rangefinder Subsystem
-#define LIGHT_BAR_RELAY_PORT 1 // Compiler blows chunks if using relay port 0
-#define BOILER_RANGE_PORT_A 8  // CRE FIXME: Are these Analog Ports?
-#define BOILER_RANGE_PORT_B 9
+#define LIGHT_BAR_RELAY_PORT 0 // Compiler blows chunks if using relay port 0
+#define BOILER_RANGE_INPUT_PORT 0  // Analog Ports
+#define BOILER_RANGE_OUTPUT_PORT 1
 
 // Pneumatic port configuration
 #define CYLINDER_PORT0 0 // Gripper solenoid wired to port 0 on pneumatic break-out card
