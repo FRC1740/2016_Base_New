@@ -3,8 +3,11 @@
 #include <Commands/Climb.h>
 #include <Commands/Descend.h>
 #include <Commands/Shoot.h>
+/* No longer aiming
 #include <Commands/AimUp.h>
 #include <Commands/AimDown.h>
+/* */
+#include <Commands/RangeLight.h>
 #include "OI.h"
 
 OI::OI()
@@ -43,15 +46,21 @@ OI::OI()
 	climb->WhenPressed(new Climb());
 	descend->WhenPressed(new Descend());
 
+	// Light/Indicator
+	light = new JoystickButton(xboxController, 1);
+	light->WhenPressed(new RangeLight());
+
 	// Shooter
-	shoot = new JoystickButton(xboxController, 1);
+	shoot = new JoystickButton(xboxController, 2);
 	shoot->WhenPressed(new Shoot());
 
 	// Aim w/ NES Controller
+	/* No longer aiming: Fixed Mount Shooter
 	aimUp = new JoystickButton(NESController, 9);
 	aimDn = new JoystickButton(NESController, 10);
 
 	aimUp->WhenPressed(new AimUp());
 	aimDn->WhenPressed(new AimDown());
+	/* */
 
 }

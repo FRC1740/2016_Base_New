@@ -10,8 +10,6 @@
 #include "Commands/XBoxSaucer.h"
 #include "CommandBase.h"
 
-
-
 /*
  *	Team 1740
  *	2017 Code
@@ -32,9 +30,13 @@ private:
 	Compressor *compressor;
 	SendableChooser<Command*> *drivemodechooser;
 	SendableChooser<Command*> *autonomouschooser;
+	ADIS16448_IMU *imu;
+
+
 
 	virtual void RobotInit()
 	{
+
 
 //		logger->Log("RobotInit()", STATUS_MESSAGE);
 		CommandBase::init();
@@ -62,9 +64,11 @@ private:
 		// It is possible to use two cameras, but bandwidth will be an issue.
 //		cs::UsbCamera revCam = CameraServer::GetInstance()->StartAutomaticCapture(1);
 
-
+		// Uncomment this if we are using pneumatics
 //		compressor = new Compressor();
 
+		// New Inertial Measurement Unit for 2017. Plugs directly into RoboRio. Woo hoo!
+		imu = new ADIS16448_IMU;
 	}
 	
 	virtual void AutonomousInit()
@@ -93,7 +97,6 @@ private:
 	virtual void TeleopPeriodic()
 	{
 		Scheduler::GetInstance()->Run();
-//		SmartDashboard::PutData("IMU", imu);
 	}
 
 	virtual void TestPeriodic()

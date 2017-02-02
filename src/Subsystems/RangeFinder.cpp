@@ -4,7 +4,7 @@
 
 RangeFinder::RangeFinder() : Subsystem("RangeFinder")
 {
-	rangeBoiler = new Ultrasonic(BOILER_RANGE_PORT_A, BOILER_RANGE_PORT_B);
+	rangeBoiler = new Ultrasonic(BOILER_RANGE_OUTPUT_PORT, BOILER_RANGE_INPUT_PORT);
 	rangeBoiler->SetAutomaticMode(true);
 	light = new Relay(LIGHT_BAR_RELAY_PORT);
 }
@@ -18,10 +18,10 @@ void RangeFinder::Light(unsigned int state)
 {
 	if (state)
 	{
-//		light->Set(Relay::kForward);
+		light->Set(Relay::kForward);
 	}
 	else
 	{
-//		light->Set(Relay::kOff);
+		light->Set(Relay::kOff);
 	}
 }
