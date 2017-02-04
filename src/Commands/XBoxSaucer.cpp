@@ -7,16 +7,24 @@ XBoxSaucer::XBoxSaucer()
 {
 	Requires(drivetrain);
 	/* Arguments to RobotDrive must be in the following order
+
 	 *     - 1 front left drive motor
 	 *     - 2 rear left drive motor
 	 *     - 3 front right drive motor
 	 *     - 4 rear right drive motor
 	 */
-	m_robotDrive = new RobotDrive(drivetrain->front_left_motor, drivetrain->rear_left_motor,
-									drivetrain->front_right_motor, drivetrain->rear_right_motor);
 
-	// For some reason, these next lines also affect Xbox Standard drive.
-	// Perhaps because they both inherit from the same class?
+
+	/*
+	 * The RobotDrive code below screws up both xBox Standard drive as well
+	 * as the autonomous mode driving. Must have something to do with sharing
+	 * the drivetrain object and drive motor resources?
+	 * Or erhaps because they both inherit from the same class?
+	 */
+
+	/* m_robotDrive = new RobotDrive(drivetrain->front_left_motor, drivetrain->rear_left_motor,
+									drivetrain->front_right_motor, drivetrain->rear_right_motor);
+	*/
 //	m_robotDrive->SetInvertedMotor(frc::RobotDrive::kFrontRightMotor, true);
 //	m_robotDrive->SetInvertedMotor(frc::RobotDrive::kRearRightMotor, true);
 
@@ -47,13 +55,11 @@ void XBoxSaucer::Execute()
 	}
 
 	// For auto steering, pass this->gyroAngle as the fourth argument
-	m_robotDrive->MecanumDrive_Cartesian(this->GetX(), this->GetY(), this->GetTwist(), drivetrain->gyro->GetAngle());
+	// m_robotDrive->MecanumDrive_Cartesian(this->GetX(), this->GetY(), this->GetTwist(), drivetrain->gyro->GetAngle());
 
 }
 
 // CRE 01-22-17 Added three methods to replicate 3-Axis Joystick
-// CRE FIXME: I'm Guessing about the axis numbers...
-
 float XBoxSaucer::GetX()
 {
 	float input = oi->xboxController->GetRawAxis(0);

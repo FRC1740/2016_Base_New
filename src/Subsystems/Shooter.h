@@ -9,17 +9,16 @@ private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
 	CANTalon *shootMotor;
-	CANTalon *aimMotor;
+	CANTalon *gateMotor;
 
 public:
 	Shooter();
 	void InitDefaultCommand();
-	void aimUp();
-	void aimDn();
-	void aimStop();
-	void aim(float speed);
 	void shoot();
 	void shootStop();
+	// Tank -> Shooter Gate
+	void breachOpen();
+	void breachClose();
 };
 
 #endif  // Shooter_H

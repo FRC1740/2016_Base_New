@@ -5,19 +5,24 @@
 #include "Commands/Subsystem.h"
 #include "DataLogger.h"
 
-#define IN_FACTOR 1 / .0098
+// Calibrated based on measured distance
+#define IN_FACTOR 1 / .00625
 #define FT_FACTOR IN_FACTOR / 12
 
 class RangeFinder: public Subsystem
 {
 private:
 	Relay *light;
+	AnalogInput *rangeBoiler;
+	//	Ultrasonic *rangeBoiler;
+	//	Ultrasonic *rangeClimber;
+
 public:
 	RangeFinder();
 	void InitDefaultCommand();
-	Ultrasonic *rangeBoiler;
-//	Ultrasonic *rangeClimber;
 	void Light(unsigned int);
+	float GetAverageVoltage(void);
+	float GetRangeInches(void);
 };
 
 #endif
