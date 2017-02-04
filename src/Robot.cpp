@@ -26,18 +26,16 @@ private:
 	// TODO can i initialize a pointer to datalogger here?
 	Command *autonomousCommand;
 	Command *teleopcommand;
+	// LiveWindow uses the SmartDashboard in Test mode
+	// All subsystems are automatically added to the LiveWindow
 	LiveWindow *lw;
 	Compressor *compressor;
 	SendableChooser<Command*> *drivemodechooser;
 	SendableChooser<Command*> *autonomouschooser;
 	ADIS16448_IMU *imu;
 
-
-
 	virtual void RobotInit()
 	{
-
-
 //		logger->Log("RobotInit()", STATUS_MESSAGE);
 		CommandBase::init();
 //		SmartDashboard::init(); // i guess we init the smart dash here.... idk where else to do it, idk if its necessary
@@ -97,6 +95,12 @@ private:
 	virtual void TeleopPeriodic()
 	{
 		Scheduler::GetInstance()->Run();
+		printf("imu->GetAngleZ: %f\n", imu->GetAngleZ());
+	}
+
+	virtual void TestInit()
+	{
+
 	}
 
 	virtual void TestPeriodic()

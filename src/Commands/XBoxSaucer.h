@@ -25,7 +25,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	RobotDrive *m_robotDrive;		// RobotDrive object using four individual drive motors
+	// RobotDrive *m_robotDrive;		// RobotDrive object using four individual drive motors
 	float gyroAngle;
 };
 

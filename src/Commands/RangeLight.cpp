@@ -1,6 +1,10 @@
 #include "RangeLight.h"
 #include "../RobotMap.h"
 
+// Shooting Range in Inches
+#define MIN_RANGE 46
+#define MAX_RANGE 56
+
 RangeLight::RangeLight()
 {
 	Requires(rangefinder);
@@ -14,28 +18,28 @@ void RangeLight::Initialize()
 
 void RangeLight::Execute()
 {
+	char rangeString[14];
+	float rangeInches;
 
-	/*
-	if (rangefinder->rangeBoiler->GetRangeInches() > 36
-			&& rangefinder->rangeBoiler->GetRangeInches() < 48) {
+	rangeInches = rangefinder->GetRangeInches();
+	sprintf(rangeString, "%5.2f inches", rangeInches);
 
+	// Guessing on this range...
+	if (rangeInches >= MIN_RANGE && rangeInches <= MAX_RANGE)
+	{
 		rangefinder->Light(1);
 	}
 	else {
 		rangefinder->Light(0);
 	}
-	SmartDashboard::PutNumber("Range to Boiler:", rangefinder->rangeBoiler->GetRangeInches());
-//	SmartDashboard::PutNumber("Bottom Range:", rangefinder->rangeClimber->GetRangeInches());
 
- */
+	SmartDashboard::PutString("Range to Boiler: ", rangeString);
+
 }
 
 bool RangeLight::IsFinished()
 {
-	if (oi->climb->Get() == true)
-		return false;
-	else
-		return true;
+	return false;
 }
 
 void RangeLight::End()
@@ -46,5 +50,6 @@ void RangeLight::End()
 
 void RangeLight::Interrupted()
 {
+	rangefinder->Light(0);
 	return;
 }

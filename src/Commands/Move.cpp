@@ -3,6 +3,7 @@
 Move::Move(int a, float s, double time)
 {
 	Requires(drivetrain);
+	Requires(rangefinder);
 	speed = s;
 	angle = (a % 360) + ANGLE_CORRECTION; // simplify angle
 	SetTimeout(time);
@@ -13,6 +14,8 @@ Move::Move(int a, float s, double time)
 
 void Move::Initialize()
 {
+	rangefinder->Light(ON);
+
 	// TODO there must be a nicer way to do this, but this works -ktk
 	// CRE You're right, Kevin this is really ugly... Only used in auto mode?
 	float left, right;
@@ -33,7 +36,9 @@ void Move::Initialize()
 		right = 1;
 	}
 	// The drivetrain->Go method has built-in reversal for motors on "wrong" side
-	drivetrain->Go(left * speed, right * speed, right * speed, left * speed);
+//	drivetrain->Go(left * speed, right * speed, right * speed, left * speed);
+
+	drivetrain->Go(1.0, 1.0, 1.0, 1.0);
 }
 
 void Move::Execute()
@@ -49,6 +54,7 @@ bool Move::IsFinished()
 void Move::End()
 {
 	drivetrain->Stop();
+	rangefinder->Light(OFF);
 }
 
 void Move::Interrupted()

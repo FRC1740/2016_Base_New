@@ -12,6 +12,14 @@
  
 // Updated for 2017 Steamworks
 // drivetrain motors go here, currently set up to assume 4 motor
+#define ON 1
+#define OFF 0
+
+// CRE 2017-02-04: Analog Port 0 on the RoboRio is Number 1 in the C++ Library. Go figure...
+#define ROBORIO_ANALOG_ZERO 1
+#define ROBORIO_ANALOG_ONE 2
+#define ROBORIO_ANALOG_TWO 3
+#define ROBORIO_ANALOG_THREE 4
 
 // Use the following Talon ID for the Mecanum Drive Practice 'bot
 #define FRONT_LEFT_MOTOR_ID 3
@@ -29,9 +37,10 @@
 // TODO VECTORIZE JOYSTICK INPUTS
 
 // Rangefinder Subsystem
-#define LIGHT_BAR_RELAY_PORT 0 // Compiler blows chunks if using relay port 0
-#define BOILER_RANGE_INPUT_PORT 0  // Analog Ports
-#define BOILER_RANGE_OUTPUT_PORT 1
+#define LIGHT_BAR_RELAY_PORT 0
+// DIO Ports for Ultrasonic Rangefinder
+#define BOILER_RANGE_OUTPUT_PORT 8
+#define BOILER_RANGE_INPUT_PORT 9
 
 // Pneumatic port configuration
 #define CYLINDER_PORT0 0 // Gripper solenoid wired to port 0 on pneumatic break-out card

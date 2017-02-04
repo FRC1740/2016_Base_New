@@ -1,13 +1,12 @@
 #include "Shooter.h"
 #include "../RobotMap.h"
 
-#define AIM_POWER 1.0
-#define SHOOT_POWER 0.5
+#define SHOOT_POWER 0.6
 
 Shooter::Shooter() : Subsystem("ExampleSubsystem") {
 
 	shootMotor = new CANTalon(SHOOTER_MOTOR_ID);
-	aimMotor = new CANTalon(AIM_MOTOR_ID);
+	gateMotor = new CANTalon(AIM_MOTOR_ID);
 }
 
 void Shooter::InitDefaultCommand() {
@@ -22,24 +21,13 @@ void Shooter::shoot()
 {
 	shootMotor->Set(-SHOOT_POWER);
 }
-void Shooter::aimUp()
-{
-	aimMotor->Set(-AIM_POWER);
-}
-
-void Shooter::aimDn()
-{
-	aimMotor->Set(AIM_POWER);
-}
-void Shooter::aimStop()
-{
-	aimMotor->Set(0.0);
-}
 void Shooter::shootStop()
 {
 	shootMotor->Set(0.0);
 }
-void Shooter::aim(float speed)
+void Shooter::breachOpen()
 {
-	aimMotor->Set(speed);
+}
+void Shooter::breachClose()
+{
 }
