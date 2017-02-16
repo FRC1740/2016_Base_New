@@ -1,48 +1,39 @@
-#include "Shoot.h"
+#include "autoShoot.h"
 
-Shoot::Shoot()
+autoShoot::autoShoot(double time)
 {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(shooter);
+	SetTimeout(time);
 }
 
 // Called just before this Command runs the first time
-void Shoot::Initialize()
+void autoShoot::Initialize()
 {
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void Shoot::Execute()
+void autoShoot::Execute()
 {
-	double motorRPM = shooter->getRPM();
-	char motorRPMString[64] = "";
-
 	shooter->shoot();
-	sprintf(motorRPMString, "%f", motorRPM);
-	printf(motorRPMString);
-
-	SmartDashboard::PutNumber("Shooter Speed: ", motorRPM);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool Shoot::IsFinished() {
-	if (oi->shoot->Get())
-		return false;
-	else
-		return true;
+bool autoShoot::IsFinished()
+{
+	return IsTimedOut();
 }
 
 // Called once after isFinished returns true
-void Shoot::End() {
+void autoShoot::End()
+{
 
-	shooter->shootStop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void Shoot::Interrupted() {
+void autoShoot::Interrupted() {
 
-	shooter->shootStop();
 }

@@ -14,8 +14,7 @@ class RangeFinder: public Subsystem
 private:
 	Relay *light;
 	AnalogInput *rangeBoiler;
-	//	Ultrasonic *rangeBoiler;
-	//	Ultrasonic *rangeClimber;
+	//	Ultrasonic *rangeBoiler;  // Digital RangeFinder Not Working
 
 public:
 	RangeFinder();

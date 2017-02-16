@@ -12,8 +12,29 @@
  
 // Updated for 2017 Steamworks
 // drivetrain motors go here, currently set up to assume 4 motor
-#define ON 1
-#define OFF 0
+#define FRONT_LEFT_MOTOR_ID 3
+#define FRONT_RIGHT_MOTOR_ID 4
+#define REAR_LEFT_MOTOR_ID 1
+#define REAR_RIGHT_MOTOR_ID 2
+
+// Other motors specific to each year's challenge
+#define CLIMBER_MOTOR_ID 5
+
+// Shooter Subsystem
+#define SHOOTER_MOTOR_ID 6
+#define SHOOTER_COUNTER_DIO_PORT
+#define GATE_MOTOR_ID 7
+// Shooting Range in Inches
+#define MIN_RANGE 46
+#define MAX_RANGE 56
+
+
+// 2017 - Using new IMU instead of analog gyro
+// Drivetrain Gyro for Steering Correction
+// #define ANALOG_GYRO_PORT 0
+
+#define ANGLE_CORRECTION 5; // offsets straight by x degrees clockwise
+// TODO VECTORIZE JOYSTICK INPUTS
 
 // CRE 2017-02-04: Analog Port 0 on the RoboRio is Number 1 in the C++ Library. Go figure...
 #define ROBORIO_ANALOG_ZERO 1
@@ -21,23 +42,10 @@
 #define ROBORIO_ANALOG_TWO 3
 #define ROBORIO_ANALOG_THREE 4
 
-// Use the following Talon ID for the Mecanum Drive Practice 'bot
-#define FRONT_LEFT_MOTOR_ID 3
-#define FRONT_RIGHT_MOTOR_ID 4
-#define REAR_LEFT_MOTOR_ID 1
-#define REAR_RIGHT_MOTOR_ID 2
-#define CLIMBER_MOTOR_ID 5
-#define SHOOTER_MOTOR_ID 6
-#define AIM_MOTOR_ID 7
-
-// Drivetrain Gyro for Steering Correction
-#define DRIVE_GYRO_PORT 0
-
-#define ANGLE_CORRECTION 5; // offsets straight by x degrees clockwise
-// TODO VECTORIZE JOYSTICK INPUTS
-
 // Rangefinder Subsystem
 #define LIGHT_BAR_RELAY_PORT 0
+#define GEAR_LIGHT_RELAY_PORT 1
+
 // DIO Ports for Ultrasonic Rangefinder
 #define BOILER_RANGE_OUTPUT_PORT 8
 #define BOILER_RANGE_INPUT_PORT 9

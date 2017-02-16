@@ -9,9 +9,6 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 	rear_left_motor = new CANTalon(REAR_LEFT_MOTOR_ID);
 	rear_right_motor = new CANTalon(REAR_RIGHT_MOTOR_ID);
 
-	gyro = new AnalogGyro(DRIVE_GYRO_PORT);
-	gyro->Reset();
-
 }
 
 void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_left_speed, float rear_right_speed)
@@ -25,6 +22,7 @@ void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_
 	// Invert the direction of the motors on the right side so motor reverse = robot fwd
 	front_right_motor->Set(-1 * front_right_speed);
 	rear_right_motor->Set(-1 * rear_right_speed);
+
 }
 
 void DriveTrain::Stop()

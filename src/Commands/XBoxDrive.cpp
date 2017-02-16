@@ -1,6 +1,7 @@
 #include "XBoxDrive.h"
 #include "../RobotMap.h"
 #include "OI.h"
+#include "math.h"
 
 XBoxDrive::XBoxDrive()
 {
@@ -12,7 +13,8 @@ void XBoxDrive::Initialize()
 	datalogger->Log("XBoxDrive::Initialize()", STATUS_MESSAGE);
 }
 
-void XBoxDrive::Execute(){
+void XBoxDrive::Execute()
+{
 	datalogger->Log("XBoxDrive::Execute()", VERBOSE_MESSAGE);
 
 	// XBox Controller uses three axes very much like a 3 Axis joystick.
@@ -51,9 +53,10 @@ void XBoxDrive::Execute(){
 
 	// The drivetrain->Go() method has built in handling for reversing motors on the left side...
 	drivetrain->Go(fl,fr,rl,rr);
+	// drivetrain->MecanumDrive(this->GetX(), this->GetY(), this->GetTwist());
 
 }
-
+// CRE 02-13-17 Attempting to vectorize left joystick input
 // CRE 01-22-17 Added three methods to replicate 3-Axis Joystick
 float XBoxDrive::GetX()
 {

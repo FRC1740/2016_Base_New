@@ -4,6 +4,8 @@
 Climber::Climber() : Subsystem("Climber") {
 
 	climberMotor = new CANTalon(CLIMBER_MOTOR_ID);
+	climberMotor->SetSafetyEnabled(false);
+	// climberMotor->SetExpiration(.1);
 }
 
 void Climber::InitDefaultCommand() {

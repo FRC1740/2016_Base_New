@@ -1,11 +1,11 @@
-#ifndef ClimberStop_H
-#define ClimberStop_H
+#ifndef autoShoot_H
+#define autoShoot_H
 
 #include "../CommandBase.h"
 
-class ClimberStop : public CommandBase {
+class autoShoot : public CommandBase {
 public:
-	ClimberStop();
+	autoShoot(double);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -13,4 +13,4 @@ public:
 	void Interrupted();
 };
 
-#endif  // ClimberStop_H
+#endif  // autoShoot_H
