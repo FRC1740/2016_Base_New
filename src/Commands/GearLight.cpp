@@ -8,22 +8,18 @@ GearLight::GearLight() {
 // Called just before this Command runs the first time
 void GearLight::Initialize()
 {
-		utility->gearLightOn();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void GearLight::Execute()
 {
-
+	utility->gearLightOn();
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool GearLight::IsFinished()
 {
-	if (oi->gearLightButton->Get())
-		return false;
-	else
-		return true;
+	return false;
 }
 
 // Called once after isFinished returns true

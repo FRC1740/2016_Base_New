@@ -16,12 +16,12 @@ private:
 public:
 	Shooter();
 	void InitDefaultCommand();
-	void shoot();
-	void shootStop();
-	double getRPM(); // Show shooter RPM
+	void Shoot();
+	void Stop();
+	double GetRPM(); // Show shooter RPM
 	// Tank -> Shooter Gate
-	void breachOpen();
-	void breachClose();
+	void BreachOpen();
+	void BreachClose();
 };
 
 #endif  // Shooter_H

@@ -16,10 +16,10 @@ void Shoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute()
 {
-	double motorRPM = shooter->getRPM();
+	double motorRPM = shooter->GetRPM();
 	char motorRPMString[64] = "";
 
-	shooter->shoot();
+	shooter->Shoot();
 	sprintf(motorRPMString, "%f", motorRPM);
 	printf(motorRPMString);
 
@@ -28,21 +28,18 @@ void Shoot::Execute()
 
 // Make this return true when this Command no longer needs to run execute()
 bool Shoot::IsFinished() {
-	if (oi->shoot->Get())
-		return false;
-	else
-		return true;
+	return false;
 }
 
 // Called once after isFinished returns true
 void Shoot::End() {
 
-	shooter->shootStop();
+	shooter->Stop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void Shoot::Interrupted() {
 
-	shooter->shootStop();
+	shooter->Stop();
 }

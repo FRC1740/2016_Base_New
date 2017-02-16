@@ -27,9 +27,12 @@ public:
 	JoystickButton *descend;
 
 	// Shoot a whiffle ball
-	JoystickButton *shoot;
+	JoystickButton *shootXBox;
+	JoystickButton *shoot3Axis;
 
-	JoystickButton *gearLightButton;
+	// Map buttons for turning in gear light
+	JoystickButton *gearLightButtonXBox;
+	JoystickButton *gearLightButton3Axis;
 
 //	JoystickButton *threeAxis5;
 //	JoystickButton *threeAxis6;

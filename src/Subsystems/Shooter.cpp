@@ -25,21 +25,21 @@ void Shooter::InitDefaultCommand() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-void Shooter::shoot()
+void Shooter::Shoot()
 {
 	shootMotor->Set(-SHOOT_POWER);
 }
-void Shooter::shootStop()
+void Shooter::Stop()
 {
 	shootMotor->Set(0.0);
 }
-double Shooter::getRPM()
+double Shooter::GetRPM()
 {
 	return shooterCounter->GetPeriod(); // return RPM
 }
-void Shooter::breachOpen()
+void Shooter::BreachOpen()
 {
 }
-void Shooter::breachClose()
+void Shooter::BreachClose()
 {
 }
