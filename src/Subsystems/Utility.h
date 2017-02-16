@@ -9,8 +9,10 @@
 class Utility: public Subsystem
 {
 public:
-	TalonSRX *utility_motor;
+	Relay *gearLight;  // light to indicate gear is ready to remove
 	Utility();
+	void gearLightOn(); // Turn on the gear Light
+	void gearLightOff(); // Turn off the gear Light
 };
 
 #endif

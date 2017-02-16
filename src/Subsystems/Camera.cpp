@@ -20,20 +20,20 @@ void Camera::InitDefaultCommand() {
 
 void Camera::showGear()
 {
-	// Rotates the camera fully left
-	Mount->Set(0.0);
-}
-
-void Camera::showClimber()
-{
 	// Rotates the camera fully right
 	Mount->Set(1.0);
 }
 
-void Camera::showShooter()
+void Camera::showClimber()
 {
 	// Rotates the camera to be centered
 	Mount->Set(0.5);
+}
+
+void Camera::showShooter()
+{
+	// Rotates the camera fully left
+	Mount->Set(0.0);
 }
 
 void Camera::Center()

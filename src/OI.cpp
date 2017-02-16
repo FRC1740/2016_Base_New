@@ -4,6 +4,7 @@
 #include <Commands/Descend.h>
 #include <Commands/Shoot.h>
 #include <Commands/RangeLight.h>
+#include <Commands/GearLight.h>
 #include "OI.h"
 
 OI::OI()
@@ -32,8 +33,10 @@ OI::OI()
 	showGear->WhenPressed(new CameraShowGear());
 
 	// Shooter
-	shoot = new JoystickButton(xboxController, 2);
-	shoot->WhenPressed(new Shoot());
+	shootXBox = new JoystickButton(xboxController, 2);
+	shootXBox->ToggleWhenPressed(new Shoot());
+	shoot3Axis = new JoystickButton(threeAxisJoystick, 1);
+	shoot3Axis->ToggleWhenPressed(new Shoot());
 
 	// Climb & Descend
 	climb = new JoystickButton(NESController, 2);
@@ -42,12 +45,9 @@ OI::OI()
 	climb->WhenPressed(new Climb());
 	descend->WhenPressed(new Descend());
 
-	// Light/Indicator
-	light = new JoystickButton(xboxController, 1);
-	light->WhenPressed(new RangeLight());
-
-	// Shooter
-	shoot = new JoystickButton(xboxController, 2);
-	shoot->WhenPressed(new Shoot());
-
+	// Light for "Gear Ready to Raise"
+	gearLightButtonXBox = new JoystickButton(xboxController, 1);
+	gearLightButtonXBox->WhileHeld(new GearLight);
+	gearLightButton3Axis = new JoystickButton(threeAxisJoystick, 3);
+	gearLightButton3Axis->WhileHeld(new GearLight);
 }

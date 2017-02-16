@@ -6,11 +6,12 @@ OI* CommandBase::oi = NULL;
 DriveTrain* CommandBase::drivetrain = NULL;
 DataLogger* CommandBase::datalogger = NULL;
 Piston*	CommandBase::piston = NULL;
-// Utility* CommandBase::utility = NULL;
+Utility* CommandBase::utility = NULL;
 RangeFinder* CommandBase::rangefinder = NULL;
 Camera* CommandBase::camera = NULL;
 Climber* CommandBase::climber = NULL;
 Shooter* CommandBase::shooter = NULL;
+pidGyroDrive* CommandBase::pidgyrodrive = NULL;
 
 CommandBase::CommandBase(char const *name): Command(name) {}
 
@@ -23,8 +24,9 @@ void CommandBase::init()
 	datalogger = new DataLogger();
 	piston = new Piston();
 	camera = new Camera();
-//	utility = new Utility();
+	utility = new Utility();
 	rangefinder = new RangeFinder();
 	climber = new Climber();
 	shooter = new Shooter();
+	pidgyrodrive = new pidGyroDrive();
 }

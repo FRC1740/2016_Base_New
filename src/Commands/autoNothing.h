@@ -1,13 +1,13 @@
-#ifndef DONOTHING_H
-#define DONOTHING_H
+#ifndef autoNothing_H
+#define autoNothing_H
 
 #include "../CommandBase.h"
 #include "WPILib.h"
 
-class DoNothing: public CommandBase
+class autoNothing: public CommandBase
 {
 public:
-	DoNothing(double);
+	autoNothing(double);
 	double timer;
 	void Initialize();
 	void Execute();

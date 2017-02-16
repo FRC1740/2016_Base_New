@@ -1,14 +1,18 @@
 #include "WPILib.h"
-#include "Commands/BasicAuto.h"
-#include "Commands/DoNothing.h"
+#include "Commands/autoNothing.h"
 #include "Commands/Command.h"
-#include "Commands/Move.h"
 #include "Commands/StandardTankDrive.h"
 #include "Commands/MecanumTankDrive.h"
 #include "Commands/ThreeAxisDrive.h"
 #include "Commands/XBoxDrive.h"
 #include "Commands/XBoxSaucer.h"
+#include "Commands/MoveAbsolute.h"
 #include "CommandBase.h"
+#include <CANTalon.h>
+#include <Commands/autoGroupBaseline.h>
+#include <Commands/autoGroupShoot.h>
+#include <Commands/autoMove.h>
+#include "ADIS16448_IMU.h"
 
 /*
  *	Team 1740
@@ -32,12 +36,15 @@ private:
 	Compressor *compressor;
 	SendableChooser<Command*> *drivemodechooser;
 	SendableChooser<Command*> *autonomouschooser;
-	ADIS16448_IMU *imu;
+	double gyroAngle;
+	ADIS16448_IMU *imu = new ADIS16448_IMU;
 
 	virtual void RobotInit()
 	{
 //		logger->Log("RobotInit()", STATUS_MESSAGE);
 		CommandBase::init();
+		imu->Reset();
+		gyroAngle = 0.0;
 //		SmartDashboard::init(); // i guess we init the smart dash here.... idk where else to do it, idk if its necessary
 
 		drivemodechooser = new SendableChooser<Command*>;
@@ -45,28 +52,25 @@ private:
 //		drivemodechooser->AddObject("2 Joystick Mecanum", new MecanumTankDrive());
 		drivemodechooser->AddDefault("Xbox Standard", new XBoxDrive());
 		drivemodechooser->AddObject("3 Axis Joystick", new ThreeAxisDrive());
-		drivemodechooser->AddObject("Xbox Experimental", new XBoxSaucer());
+		// NOT USING // drivemodechooser->AddObject("Xbox Saucer", new XBoxSaucer());
 		SmartDashboard::PutData("Drive Mode", drivemodechooser);
 
 //		->Log("added objects", VERBOSE_MESSAGE);
 		autonomouschooser = new SendableChooser<Command*>;
-		autonomouschooser->AddDefault("Do Nothing", new DoNothing(15));
-		autonomouschooser->AddObject("MoveToBaseline", new BasicAuto());
-//		autonomouschooser->AddObject("Testing move", new Move(270, .3, 5));
+		autonomouschooser->AddDefault("Do Nothing", new autoNothing(15));
+		autonomouschooser->AddObject("Baseline", new autoGroupBaseline());
+		autonomouschooser->AddObject("Gear", new autoNothing(15));
+		autonomouschooser->AddObject("Shoot", new autoGroupShoot());
+		autonomouschooser->AddObject("Shoot+Baseline", new autoNothing(115));
 		SmartDashboard::PutData("Autonomous", autonomouschooser);
 
 		lw = LiveWindow::GetInstance();
-//		->Log("Starting robot!", VERBOSE_MESSAGE);
-//		->Flush();
 		cs::UsbCamera fwdCam = CameraServer::GetInstance()->StartAutomaticCapture(0);
-		// It is possible to use two cameras, but bandwidth will be an issue.
+		// It is possible to use two cameras, but bandwidth is an issue.
 //		cs::UsbCamera revCam = CameraServer::GetInstance()->StartAutomaticCapture(1);
 
 		// Uncomment this if we are using pneumatics
 //		compressor = new Compressor();
-
-		// New Inertial Measurement Unit for 2017. Plugs directly into RoboRio. Woo hoo!
-		imu = new ADIS16448_IMU;
 	}
 	
 	virtual void AutonomousInit()
@@ -75,27 +79,30 @@ private:
 //		->Log("Starting Compressor", STATUS_MESSAGE);
 //		compressor->Start();
 		autonomousCommand = (Command *) autonomouschooser->GetSelected();
+		Wait(1.0);
 		autonomousCommand->Start();
 	}
 
 	virtual void AutonomousPeriodic()
 	{
-		Scheduler::GetInstance()->Run();
+		Scheduler::GetInstance()->Run(); // FIXME: What does this do?
+		gyroAngle = imu->GetAngleZ()/4.0;
 	}
 
 	virtual void TeleopInit()
 	{
-//		->Log("Entering TeleopInit()", STATUS_MESSAGE);
-//		autonomousCommand->Cancel();
 		teleopcommand = (Command *) drivemodechooser->GetSelected();
 		teleopcommand->Start();
-//		->End();
+
 	}
 
 	virtual void TeleopPeriodic()
 	{
+		char gyroString[64] = "";
 		Scheduler::GetInstance()->Run();
-		printf("imu->GetAngleZ: %f\n", imu->GetAngleZ());
+		gyroAngle = imu->GetAngleZ()/4.0;
+		sprintf(gyroString, "%5.2f degrees", gyroAngle);
+		SmartDashboard::PutString("Gyro Angle: ", gyroString);
 	}
 
 	virtual void TestInit()

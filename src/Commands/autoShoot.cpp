@@ -1,35 +1,39 @@
-#include "ClimberStop.h"
+#include "autoShoot.h"
 
-ClimberStop::ClimberStop() {
+autoShoot::autoShoot(double time)
+{
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(climber);
+	Requires(shooter);
+	SetTimeout(time);
 }
 
 // Called just before this Command runs the first time
-void ClimberStop::Initialize() {
-	climber->stop();
-//	printf("OK, Climber Stopped.");
+void autoShoot::Initialize()
+{
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ClimberStop::Execute() {
-
+void autoShoot::Execute()
+{
+	shooter->Shoot();
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ClimberStop::IsFinished() {
-	return true;
+bool autoShoot::IsFinished()
+{
+	return IsTimedOut();
 }
 
 // Called once after isFinished returns true
-void ClimberStop::End() {
-
+void autoShoot::End()
+{
+	shooter->Stop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ClimberStop::Interrupted() {
-	climber->stop();
+void autoShoot::Interrupted() {
+
 }

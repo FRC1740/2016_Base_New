@@ -1,15 +1,16 @@
-#ifndef Move_H
-#define Move_H
+#ifndef autoMove_H
+#define autoMove_H
 
-#include "../CommandBase.h"
 #include "WPILib.h"
+#include "../CommandBase.h"
 #include "../RobotMap.h"
-class Move: public CommandBase
+
+class autoMove: public CommandBase
 {
 public:
-	Move(int, float, double);
+	autoMove(int, float, double);
 	int angle;
-	float speed;
+	float speed, left, right;
 	void Initialize();
 	void Execute();
 	bool IsFinished();

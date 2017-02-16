@@ -1,62 +1,68 @@
 #include "XBoxSaucer.h"
 #include "../RobotMap.h"
 #include "OI.h"
-#include "math.h"
+
+/*
+ * CRE: 2017-02-13
+ * Adapted from XBoxDrive command, this mode is intended to use vector mapping of left joystick
+ * in combination with the IMU gyro for absolute "saucer mode" directional movement, and
+ * the right joystick mapping to turning left/right. We'll see...
+ */
+
+// XBox Controller uses three axes very much like a 3 Axis joystick.
+// Axis 0 = Left Stick X Axis (Move/Strafe Left/Right)
+// Axis 1 = Left Stick Y Axis (Move Fwd/Rev)
+// Axis 4 = Right Stick X Axis (Turn/twist Left/Right)
+
 
 XBoxSaucer::XBoxSaucer()
 {
-	Requires(drivetrain);
-	/* Arguments to RobotDrive must be in the following order
+//	Requires(drivetrain);
+	front_left_motor = new CANTalon(FRONT_LEFT_MOTOR_ID);
+	rear_left_motor = new CANTalon(REAR_LEFT_MOTOR_ID);
+	front_right_motor = new CANTalon(FRONT_RIGHT_MOTOR_ID);
+	rear_right_motor = new CANTalon(REAR_RIGHT_MOTOR_ID);
 
-	 *     - 1 front left drive motor
-	 *     - 2 rear left drive motor
-	 *     - 3 front right drive motor
-	 *     - 4 rear right drive motor
-	 */
+	saucerAngle = 0.0;
+	saucerDrive = new RobotDrive(front_left_motor, rear_left_motor, front_right_motor, rear_right_motor);
+	imu = new ADIS16448_IMU;
 
-
-	/*
-	 * The RobotDrive code below screws up both xBox Standard drive as well
-	 * as the autonomous mode driving. Must have something to do with sharing
-	 * the drivetrain object and drive motor resources?
-	 * Or erhaps because they both inherit from the same class?
-	 */
-
-	/* m_robotDrive = new RobotDrive(drivetrain->front_left_motor, drivetrain->rear_left_motor,
-									drivetrain->front_right_motor, drivetrain->rear_right_motor);
-	*/
-//	m_robotDrive->SetInvertedMotor(frc::RobotDrive::kFrontRightMotor, true);
-//	m_robotDrive->SetInvertedMotor(frc::RobotDrive::kRearRightMotor, true);
-
-	drivetrain->gyro->Reset();
-	this->gyroAngle = 0.0;
 }
 
 void XBoxSaucer::Initialize()
 {
 	datalogger->Log("XBoxSaucer::Initialize()", STATUS_MESSAGE);
+	imu->Reset();
 }
 
 void XBoxSaucer::Execute()
 {
-	float currentGyroAngle = drivetrain->gyro->GetAngle();
-	char log[128];
+	double oiInputAngle, inputX, inputY, inputMag;
+	char gyroString[128];
 
-	datalogger->Log("XBoxSaucer::Execute()", VERBOSE_MESSAGE);
+	saucerAngle = -imu->GetAngleZ()/4.0;
+	sprintf(gyroString, "%5.2f degrees", saucerAngle);
+//	SmartDashboard::PutString("Gyro Angle: ", gyroString);
+	sprintf(gyroString, "XBoxSaucer::Execute() saucerAngle = %5.2f", saucerAngle);
+	datalogger->Log(gyroString, VERBOSE_MESSAGE);
 
-	// Experimental XBox "Saucer Mode" Uses gyro and RobotDrive->Mecanum() for absolute direction control
+	inputX = GetX();
+	inputY = GetY();
 
-	if (abs(this->gyroAngle - currentGyroAngle) > 3)
+	if (inputX == 0.0 && inputY == 0.0)
 	{
-		this->gyroAngle = currentGyroAngle;
-		sprintf(log, "XboxSaucer::Execute() gyroAngle now %f", this->gyroAngle);
-		datalogger->Log(log, STATUS_MESSAGE);
-		printf("gyroAngle now %f", this->gyroAngle);
+		saucerDrive->StopMotor();
 	}
-
-	// For auto steering, pass this->gyroAngle as the fourth argument
-	// m_robotDrive->MecanumDrive_Cartesian(this->GetX(), this->GetY(), this->GetTwist(), drivetrain->gyro->GetAngle());
-
+	else
+	{
+		oiInputAngle =  atan(-inputX/inputY);
+		if (inputY > 0) // Driver wants to go toward home alliance station
+		{
+			oiInputAngle += 180;
+		}
+		inputMag = sqrt(pow(inputX,2) + pow(inputY,2));
+		saucerDrive->MecanumDrive_Polar(inputMag, oiInputAngle, saucerAngle);
+	}
 }
 
 // CRE 01-22-17 Added three methods to replicate 3-Axis Joystick
