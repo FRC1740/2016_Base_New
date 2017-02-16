@@ -1,10 +1,6 @@
 #include "RangeLight.h"
 #include "../RobotMap.h"
 
-// Shooting Range in Inches
-#define MIN_RANGE 46
-#define MAX_RANGE 56
-
 RangeLight::RangeLight()
 {
 	Requires(rangefinder);

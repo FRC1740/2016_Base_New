@@ -4,6 +4,7 @@
 #include <Commands/Descend.h>
 #include <Commands/Shoot.h>
 #include <Commands/RangeLight.h>
+#include <Commands/GearLight.h>
 #include "OI.h"
 
 OI::OI()
@@ -42,9 +43,9 @@ OI::OI()
 	climb->WhenPressed(new Climb());
 	descend->WhenPressed(new Descend());
 
-	// Light/Indicator
-	light = new JoystickButton(xboxController, 1);
-	light->WhenPressed(new RangeLight());
+	// Light for "Gear Ready to Raise"
+	gearLightButton = new JoystickButton(xboxController, 1);
+	gearLightButton->WhenPressed(new GearLight);
 
 	// Shooter
 	shoot = new JoystickButton(xboxController, 2);

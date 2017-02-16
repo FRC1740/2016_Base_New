@@ -3,6 +3,7 @@
 
 #include "../CommandBase.h"
 #include "WPILib.h"
+#include "../ADIS16448_IMU.h"
 
 #define SCALE_TWIST 1.0 // Adjust these to suit drivers' preference
 #define SCALE_YAXIS 1.0
@@ -25,8 +26,13 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	// RobotDrive *m_robotDrive;		// RobotDrive object using four individual drive motors
-	float gyroAngle;
+	ADIS16448_IMU *imu;
+	CANTalon *front_left_motor;
+	CANTalon *rear_left_motor;
+	CANTalon *front_right_motor;
+	CANTalon *rear_right_motor;
+	RobotDrive *saucerDrive;		// RobotDrive object using four individual drive motors
+	double saucerAngle;
 };
 
 #endif

@@ -6,7 +6,15 @@
 Shooter::Shooter() : Subsystem("ExampleSubsystem") {
 
 	shootMotor = new CANTalon(SHOOTER_MOTOR_ID);
-	gateMotor = new CANTalon(AIM_MOTOR_ID);
+	shootMotor->SetSafetyEnabled(false);
+	// shootMotor->SetExpiration(.1);
+
+	gateMotor = new CANTalon(GATE_MOTOR_ID);
+	gateMotor->SetSafetyEnabled(false);
+	// gateMotor->SetExpiration(.1);
+
+	shooterCounter = new Counter(SHOOTER_COUNTER_DIO_PORT);
+	shooterCounter->Reset();
 }
 
 void Shooter::InitDefaultCommand() {
@@ -24,6 +32,10 @@ void Shooter::shoot()
 void Shooter::shootStop()
 {
 	shootMotor->Set(0.0);
+}
+double Shooter::getRPM()
+{
+	return shooterCounter->GetPeriod(); // return RPM
 }
 void Shooter::breachOpen()
 {

@@ -29,7 +29,7 @@ public:
 	// Shoot a whiffle ball
 	JoystickButton *shoot;
 
-	JoystickButton *light;
+	JoystickButton *gearLightButton;
 
 //	JoystickButton *threeAxis5;
 //	JoystickButton *threeAxis6;
