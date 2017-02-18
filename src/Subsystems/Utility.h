@@ -4,8 +4,6 @@
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
 
-#define SPEED 1.0
-
 class Utility: public Subsystem
 {
 public:

@@ -3,6 +3,7 @@
 ThreeAxisDrive::ThreeAxisDrive()
 {
 	Requires(drivetrain);
+	Requires(camera);
 }
 
 void ThreeAxisDrive::Initialize()
@@ -12,6 +13,8 @@ void ThreeAxisDrive::Initialize()
 
 void ThreeAxisDrive::Execute()
 {
+
+	int inputPOV = 0;
 
 	// The drivetrain->Go() method has built in handling for reversing motors on the left side...
 
@@ -52,6 +55,17 @@ void ThreeAxisDrive::Execute()
 	drivetrain->rear_left_motor->Set(oi->threeAxisJoystick->GetTwist() - oi->threeAxisJoystick->GetY() + oi->threeAxisJoystick->GetX());
 	drivetrain->rear_right_motor->Set(oi->threeAxisJoystick->GetTwist() + oi->threeAxisJoystick->GetY() - oi->threeAxisJoystick->GetX());
 	*/
+
+	inputPOV = oi->threeAxisJoystick->GetPOV();
+
+	if (inputPOV < -45 && inputPOV > -125) // Turn Camera Left
+	{
+			camera->TurnLeft();
+	}
+	else if (inputPOV > 45 && inputPOV < 125) // Turn Camera Right
+	{
+			camera->TurnRight();
+	}
 }
 
 bool ThreeAxisDrive::IsFinished()

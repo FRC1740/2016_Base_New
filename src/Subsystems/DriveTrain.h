@@ -16,6 +16,9 @@ public:
 	CANTalon *rear_left_motor;
 	DriveTrain();
 	void Go(float, float, float, float);
+	// Hoping to use this for encoder-feedback auto-move
+	// arg1: distance, arg2: angle
+	void MoveTo(float, float);
 	void Stop();
 };
 

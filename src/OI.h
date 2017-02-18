@@ -19,8 +19,8 @@ public:
 
 	// Configure buttons which will perform specific tasks
 	// The following rotate the camera
-	JoystickButton *showClimber;
-	JoystickButton *showGear;
+	JoystickButton *CameraTurnLeft;
+	JoystickButton *CameraTurnRight;
 
 	// Climber buttons up/down
 	JoystickButton *climb;

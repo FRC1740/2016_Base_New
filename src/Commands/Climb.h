@@ -3,7 +3,8 @@
 
 #include "../CommandBase.h"
 
-class Climb : public CommandBase {
+class Climb : public CommandBase
+{
 public:
 	Climb();
 	void Initialize();

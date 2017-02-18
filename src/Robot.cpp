@@ -6,7 +6,6 @@
 #include "Commands/ThreeAxisDrive.h"
 #include "Commands/XBoxDrive.h"
 #include "Commands/XBoxSaucer.h"
-#include "Commands/MoveAbsolute.h"
 #include "CommandBase.h"
 #include <CANTalon.h>
 #include <Commands/autoGroupBaseline.h>
@@ -38,6 +37,9 @@ private:
 	SendableChooser<Command*> *autonomouschooser;
 	double gyroAngle;
 	ADIS16448_IMU *imu = new ADIS16448_IMU;
+	char gyroString[64] = "";
+	double shooterSpeed;
+	char shooterSpeedString[64] = "";
 
 	virtual void RobotInit()
 	{
@@ -45,6 +47,7 @@ private:
 		CommandBase::init();
 		imu->Reset();
 		gyroAngle = 0.0;
+		shooterSpeed = 0.0;
 //		SmartDashboard::init(); // i guess we init the smart dash here.... idk where else to do it, idk if its necessary
 
 		drivemodechooser = new SendableChooser<Command*>;
@@ -81,12 +84,17 @@ private:
 		autonomousCommand = (Command *) autonomouschooser->GetSelected();
 		Wait(1.0);
 		autonomousCommand->Start();
+		gyroAngle = imu->GetAngleZ()/4.0;
+		sprintf(gyroString, "%5.2f degrees", gyroAngle);
+		SmartDashboard::PutString("Gyro Angle: ", gyroString);
 	}
 
 	virtual void AutonomousPeriodic()
 	{
 		Scheduler::GetInstance()->Run(); // FIXME: What does this do?
 		gyroAngle = imu->GetAngleZ()/4.0;
+		sprintf(gyroString, "%5.2f degrees", gyroAngle);
+		SmartDashboard::PutString("Gyro Angle: ", gyroString);
 	}
 
 	virtual void TeleopInit()
@@ -98,7 +106,6 @@ private:
 
 	virtual void TeleopPeriodic()
 	{
-		char gyroString[64] = "";
 		Scheduler::GetInstance()->Run();
 		gyroAngle = imu->GetAngleZ()/4.0;
 		sprintf(gyroString, "%5.2f degrees", gyroAngle);

@@ -3,7 +3,6 @@
 autoMove::autoMove(int a, float s, double time)
 {
 	Requires(drivetrain);
-	Requires(rangefinder);
 	speed = s;
 	angle = (a % 360) + ANGLE_CORRECTION; // simplify angle
 	left = 1.0;
