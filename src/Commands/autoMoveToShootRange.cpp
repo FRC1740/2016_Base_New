@@ -7,19 +7,20 @@ autoMoveToShootRange::autoMoveToShootRange() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(drivetrain);
-	Requires(rangefinder);
-	range = rangefinder->GetRangeInches(); // Distance to boiler
+	Requires(shooter);
+	startingRange = shooter->GetRangeInches(); // Distance to boiler
+	currentRange = startingRange;
 	speed = 0.0;
 }
 
 // Called just before this Command runs the first time
 void autoMoveToShootRange::Initialize() {
 
-	if (range < MIN_RANGE) // Move backward if we're too close
+	if (startingRange < MIN_RANGE) // Move backward if we're too close
 	{
 		speed = .2 * AWAY_FROM_BOILER;
 	}
-	else if (range > MAX_RANGE) // Move forward if we're not close enough
+	else if (startingRange > MAX_RANGE) // Move forward if we're not close enough
 	{
 		speed = .2 * TOWARD_BOILER;
 	}
@@ -29,13 +30,13 @@ void autoMoveToShootRange::Initialize() {
 void autoMoveToShootRange::Execute() {
 
 	drivetrain->Go(speed, speed, speed, speed);
-	range = rangefinder->GetRangeInches();
+	currentRange = shooter->GetRangeInches();
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool autoMoveToShootRange::IsFinished() {
 
-	if (MIN_RANGE < range && range < MAX_RANGE)
+	if (MIN_RANGE < currentRange && currentRange < MAX_RANGE)
 		return true;
 	else
 		return false;

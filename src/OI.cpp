@@ -3,7 +3,7 @@
 #include <Commands/Climb.h>
 #include <Commands/Descend.h>
 #include <Commands/Shoot.h>
-#include <Commands/RangeLight.h>
+#include <Commands/BoilerRangeLight.h>
 #include <Commands/GearLight.h>
 #include "OI.h"
 
@@ -26,11 +26,11 @@ OI::OI()
 	launchPad = new Joystick(0);
 
 	// Camera Rotation
-	showClimber = new JoystickButton(xboxController, 5);
-	showGear = new JoystickButton(xboxController, 6);
+	CameraTurnLeft = new JoystickButton(xboxController, 5);
+	CameraTurnRight = new JoystickButton(xboxController, 6);
 
-	showClimber->WhenPressed(new CameraShowClimber());
-	showGear->WhenPressed(new CameraShowGear());
+//	CameraTurnLeft->WhenPressed(new CameraTurn(-1.0)); // Turn Left
+//	CameraTurnRight->WhenPressed(new CameraTurn(1.0)); // Turn Right
 
 	// Shooter
 	shootXBox = new JoystickButton(xboxController, 2);

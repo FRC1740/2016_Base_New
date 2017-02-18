@@ -9,15 +9,20 @@ private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
 	Servo *Mount;
-	double Angle;
+	double ServoAngle;
 
 public:
 	Camera();
 	void InitDefaultCommand();
-	void showGear();
-	void showShooter();
-	void showClimber();
+	void ShowGear();
+	void ShowShooter();
+	void ShowClimber();
 	void Center();
+	float GetPos(); // Returns camera mount/servo position
+	bool CanTurnLeft();
+	float TurnLeft();
+	bool CanTurnRight();
+	float TurnRight();
 };
 
 #endif  // Camera_H

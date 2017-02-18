@@ -1,38 +1,43 @@
-#include "moveAbsolute.h"
+#include "CameraTurn.h"
 
-moveAbsolute::moveAbsolute(double s, double time) {
+CameraTurn::CameraTurn(float a)
+{
 	// Use Requires() here to declare subsystem dependencies
-	Requires(pidgyrodrive);
-	speed = s;
-	SetTimeout(time);
+	// eg. Requires(Robot::chassis.get());
+	Requires(camera);
+	Angle = a;
 }
 
 // Called just before this Command runs the first time
-void moveAbsolute::Initialize()
+void CameraTurn::Initialize()
 {
-	pidgyrodrive->autoMove(speed);
+
 }
 
 // Called repeatedly when this Command is scheduled to run
-void moveAbsolute::Execute() {
-
+void CameraTurn::Execute()
+{
+	if (Angle < 0)
+		camera->TurnLeft();
+	else if (Angle > 0)
+		camera->TurnRight();
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool moveAbsolute::IsFinished() {
-	return IsTimedOut();
-
+bool CameraTurn::IsFinished()
+{
+	return true;
 }
 
 // Called once after isFinished returns true
-void moveAbsolute::End()
+void CameraTurn::End()
 {
-	pidgyrodrive->stop();
+
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void moveAbsolute::Interrupted()
+void CameraTurn::Interrupted()
 {
-	pidgyrodrive->stop();
+
 }

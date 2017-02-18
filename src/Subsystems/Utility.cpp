@@ -4,16 +4,16 @@
 Utility::Utility(): Subsystem("Utility")
 {
 	// utility_motor = new TalonSRX(UTILITY_MOTOR_PORT);
-	gearLight = new Relay(GEAR_LIGHT_RELAY_PORT);
+	gearLight = new frc::Relay(GEAR_LIGHT_RELAY_PORT);
 }
 
 void Utility::gearLightOn()
 {
-	gearLight->Set(Relay::kForward);
+	gearLight->Set(frc::Relay::kForward);
 }
 
 void Utility::gearLightOff()
 {
-	gearLight->Set(Relay::kOff);
+	gearLight->Set(frc::Relay::kOff);
 }
 /* */

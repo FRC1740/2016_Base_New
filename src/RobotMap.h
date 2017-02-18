@@ -22,7 +22,7 @@
 
 // Shooter Subsystem
 #define SHOOTER_MOTOR_ID 6
-#define SHOOTER_COUNTER_DIO_PORT
+#define SHOOTER_COUNTER_DIO_PORT 0
 #define GATE_MOTOR_ID 7
 // Shooting Range in Inches
 #define MIN_RANGE 46
