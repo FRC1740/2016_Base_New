@@ -1,6 +1,10 @@
 #include "XBoxSaucer.h"
+#include "XBoxDrive.h"
 #include "../RobotMap.h"
 #include "OI.h"
+#include "Math.h"
+
+#define DEG_TO_RAD 3.14159268/180.0
 
 /*
  * CRE: 2017-02-13
@@ -9,60 +13,65 @@
  * the right joystick mapping to turning left/right. We'll see...
  */
 
-// XBox Controller uses three axes very much like a 3 Axis joystick.
-// Axis 0 = Left Stick X Axis (Move/Strafe Left/Right)
-// Axis 1 = Left Stick Y Axis (Move Fwd/Rev)
-// Axis 4 = Right Stick X Axis (Turn/twist Left/Right)
-
-
 XBoxSaucer::XBoxSaucer()
 {
-//	Requires(drivetrain);
-	front_left_motor = new CANTalon(FRONT_LEFT_MOTOR_ID);
-	rear_left_motor = new CANTalon(REAR_LEFT_MOTOR_ID);
-	front_right_motor = new CANTalon(FRONT_RIGHT_MOTOR_ID);
-	rear_right_motor = new CANTalon(REAR_RIGHT_MOTOR_ID);
-
+	Requires(drivetrain);
 	saucerAngle = 0.0;
-	saucerDrive = new RobotDrive(front_left_motor, rear_left_motor, front_right_motor, rear_right_motor);
-	imu = new ADIS16448_IMU;
-
+	prevAngle = 0.0;
 }
 
 void XBoxSaucer::Initialize()
 {
 	datalogger->Log("XBoxSaucer::Initialize()", STATUS_MESSAGE);
-	imu->Reset();
+	drivetrain->imu->Reset();
+	saucerAngle = 0.0;
+	prevAngle = 0.0;
 }
 
 void XBoxSaucer::Execute()
 {
-	double oiInputAngle, inputX, inputY, inputMag;
 	char gyroString[128];
 
-	saucerAngle = -imu->GetAngleZ()/4.0;
-	sprintf(gyroString, "%5.2f degrees", saucerAngle);
-//	SmartDashboard::PutString("Gyro Angle: ", gyroString);
-	sprintf(gyroString, "XBoxSaucer::Execute() saucerAngle = %5.2f", saucerAngle);
-	datalogger->Log(gyroString, VERBOSE_MESSAGE);
-
-	inputX = GetX();
-	inputY = GetY();
-
-	if (inputX == 0.0 && inputY == 0.0)
+	saucerAngle = drivetrain->imu->GetAngleZ()/4.0;
+	if (abs(saucerAngle  - prevAngle) > .1)
 	{
-		saucerDrive->StopMotor();
+		prevAngle = saucerAngle;
+		printf("XBoxSaucer::Execute() saucerAngle = %5.2f\n", saucerAngle);
+		sprintf(gyroString, "%5.2f degrees", saucerAngle);
+		SmartDashboard::PutString("Gyro Angle: ", gyroString);
 	}
-	else
+	float x = 0, y = 0, t = 0; // floats for the axes x, y, twist
+	float fl = 0, fr = 0, rl = 0, rr = 0; // floats for the motor outputs
+
+	if (this->GetY() > DEADBAND_YAXIS || this->GetY() < -DEADBAND_YAXIS) // Deadband
 	{
-		oiInputAngle =  atan(-inputX/inputY);
-		if (inputY > 0) // Driver wants to go toward home alliance station
-		{
-			oiInputAngle += 180;
-		}
-		inputMag = sqrt(pow(inputX,2) + pow(inputY,2));
-		saucerDrive->MecanumDrive_Polar(inputMag, oiInputAngle, saucerAngle);
+		y = SCALE_YAXIS * this->GetY() * sin(saucerAngle * DEG_TO_RAD);
 	}
+	if (this->GetX() > DEADBAND_XAXIS || this->GetX() < -DEADBAND_XAXIS)  // Deadband
+	{
+		x = SCALE_XAXIS * this->GetX() * cos(saucerAngle * DEG_TO_RAD);
+	}
+	if (this->GetTwist() > DEADBAND_TWIST || this->GetTwist() < -DEADBAND_TWIST)  // Deadband
+	{
+		t = SCALE_TWIST  * this->GetTwist();
+	}
+	fl =  y + t + x; // Front Left Wheel
+	fr =  y - t - x; // Front Right Wheel
+	rl =  y + t - x; // Rear Left Wheel
+	rr =  y - t + x; // Rear Right Wheel
+
+	// If movement has changed, log it...
+	if (gfl!=fl || gfr!=fr || grl!=rl || grr!=rr)
+	{
+		gfl=fl; gfr=fr; grl=rl; grr=rr;
+		char *data = new char[128];
+		sprintf(data, "We're moving: %2.1f, %2.1f, %2.1f, %2.1f; X=%2.1f, Y=%2.1f, Twist=%2.1f", fl, fr, rl, rr, x, y, t);
+		datalogger->Log(data, DEBUG_MESSAGE);
+	}
+
+	// The drivetrain->Go() method has built in handling for reversing motors on the left side...
+	drivetrain->Go(fl,fr,rl,rr);
+	// drivetrain->MecanumDrive(this->GetX(), this->GetY(), this->GetTwist());
 }
 
 // CRE 01-22-17 Added three methods to replicate 3-Axis Joystick
@@ -70,7 +79,7 @@ float XBoxSaucer::GetX()
 {
 	float input = oi->xboxController->GetRawAxis(0);
 
-	if (abs(input) < DEADBAND_XBOX_XAXIS)
+	if (abs(input) < DEADBAND_XAXIS)
 		input = 0.0;
 
 	return input;
@@ -80,7 +89,7 @@ float XBoxSaucer::GetY()
 {
 	float input = oi->xboxController->GetRawAxis(1);
 
-	if (abs(input) < DEADBAND_XBOX_YAXIS)
+	if (abs(input) < DEADBAND_YAXIS)
 		input = 0.0;
 
 	return input;
@@ -90,7 +99,7 @@ float XBoxSaucer::GetTwist()
 {
 	float input = oi->xboxController->GetRawAxis(4);
 
-	if (abs(input) < DEADBAND_XBOX_TWIST)
+	if (abs(input) < DEADBAND_TWIST)
 		input = 0.0;
 
 	return input;

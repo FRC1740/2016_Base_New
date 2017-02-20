@@ -14,11 +14,15 @@ public:
 	CANTalon *front_left_motor;
 	CANTalon *rear_right_motor;
 	CANTalon *rear_left_motor;
+	ADIS16448_IMU *imu;
+	double gyroAngle;
 	DriveTrain();
 	void Go(float, float, float, float);
 	// Hoping to use this for encoder-feedback auto-move
 	// arg1: distance, arg2: angle
 	void MoveTo(float, float);
+	void SkateRight(float);
+	void SkateLeft(float);
 	void Stop();
 };
 

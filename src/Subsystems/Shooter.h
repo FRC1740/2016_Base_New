@@ -6,7 +6,12 @@
 #include "../RobotMap.h"
 #include "Encoder.h"
 
-#define SHOOT_POWER -0.6	 	// Starting power for calibrated distance to target
+// Shooting Range in Inches
+#define MIN_RANGE 46
+#define MAX_RANGE 56
+
+// Starting power for calibrated distance to target
+#define SHOOT_POWER 0.6
 
 // Calibrated based on measured distance
 #define IN_FACTOR 1 / .00625
@@ -19,7 +24,8 @@ private:
 	CANTalon *shootMotor;
 	CANTalon *gateMotor;
 	Counter *shooterCounter;
-	Relay *light;
+	Relay *doorSolenoid;
+	Relay *rangeLight;
 	AnalogInput *rangeBoiler;
 
 public:
@@ -28,12 +34,14 @@ public:
 	void Shoot(double); // power multiplier
 	void Stop();
 	double GetRPM(); // Show shooter RPM
-	// Tank -> Shooter Gate
 	void FeederStart();
 	void FeederStop();
+	void FeederReverse();
 	void Light(unsigned int); // Target within range indicator
 	float GetAverageVoltage(void); // rangefinder
 	float GetRangeInches(void); // Distance to boiler
+	void DoorOpen();
+	void DoorClose();
 };
 
 #endif  // Shooter_H

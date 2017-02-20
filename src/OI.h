@@ -25,11 +25,15 @@ public:
 	// Climber buttons up/down
 	JoystickButton *climb;
 	JoystickButton *descend;
+	JoystickButton *shoot;
+	JoystickButton *door;
 
 	// Shoot a whiffle ball
-	JoystickButton *shootXBox;
-	JoystickButton *shoot3Axis;
+	JoystickButton *XBoxLeftBumper;
+	JoystickButton *XBoxRightBumper;
+	JoystickButton *ThreeAxisTrigger;
 
+	// Button mapping for door solenoid open/close
 	// Map buttons for turning in gear light
 	JoystickButton *gearLightButtonXBox;
 	JoystickButton *gearLightButton3Axis;

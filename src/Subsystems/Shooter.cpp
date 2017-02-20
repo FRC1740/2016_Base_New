@@ -14,13 +14,9 @@ Shooter::Shooter() : Subsystem("Shooter") {
 	shooterCounter = new Counter(SHOOTER_COUNTER_DIO_PORT);
 	shooterCounter->Reset();
 
-	// Digital sonar. Third argument 0=inches, 1=millimeters
-	/* Today's Headlines: Digital rangefinder baffles Programming Mentor... Tune in for details at 11
-	rangeBoiler = new Ultrasonic(BOILER_RANGE_OUTPUT_PORT, BOILER_RANGE_INPUT_PORT, frc::Ultrasonic::DistanceUnit::kInches);
-	rangeBoiler->SetAutomaticMode(true);
-	/* */
 	rangeBoiler = new AnalogInput(ROBORIO_ANALOG_ZERO);
-	light = new Relay(LIGHT_BAR_RELAY_PORT);
+	doorSolenoid = new Relay(DOOR_SOLENOID_RELAY_PORT);
+	rangeLight = new Relay(BOILER_RANGE_LIGHT_RELAY_PORT);
 }
 
 void Shooter::InitDefaultCommand() {
@@ -34,7 +30,7 @@ void Shooter::InitDefaultCommand() {
 
 void Shooter::Shoot(double factor = 1.0)
 {
-	shootMotor->Set(-SHOOT_POWER * factor);
+	shootMotor->Set(SHOOT_POWER * factor);
 }
 void Shooter::Stop()
 {
@@ -48,6 +44,10 @@ void Shooter::FeederStart()
 {
 	gateMotor->Set(1.0);
 }
+void Shooter::FeederReverse()
+{
+	gateMotor->Set(-1.0);
+}
 void Shooter::FeederStop()
 {
 	gateMotor->Set(0.0);
@@ -57,14 +57,22 @@ void Shooter::Light(unsigned int state)
 {
 	if (state)
 	{
-		light->Set(Relay::kForward);
+		rangeLight->Set(Relay::kForward);
 	}
 	else
 	{
-		light->Set(Relay::kOff);
+		rangeLight->Set(Relay::kOff);
 	}
 }
 
+void Shooter::DoorOpen()
+{
+	doorSolenoid->Set(Relay::kForward);
+}
+void Shooter::DoorClose()
+{
+	doorSolenoid->Set(Relay::kOff);
+}
 float Shooter::GetAverageVoltage()
 {
 	return rangeBoiler->GetAverageVoltage();

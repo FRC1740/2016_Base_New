@@ -11,7 +11,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	double speed, currentRange, startingRange;
+	double speed, currentRange, startingRange, previousRange;
 };
 
 #endif  // autoMoveToShootRange_H

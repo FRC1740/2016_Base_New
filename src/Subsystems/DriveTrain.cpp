@@ -9,11 +9,15 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 	rear_left_motor = new CANTalon(REAR_LEFT_MOTOR_ID);
 	rear_right_motor = new CANTalon(REAR_RIGHT_MOTOR_ID);
 
+	imu = new ADIS16448_IMU();
+	imu->Reset();
+	gyroAngle = 0.0;
+
 	// CRE: 2017-02-17 Initialize the encoder position so we can (hopefully) tell how far we've moved
 	front_left_motor->SetPosition(0);
-//	front_right_motor->SetPosition(0);
+	front_right_motor->SetPosition(0);
 	rear_left_motor->SetPosition(0);
-//	rear_right_motor->SetPosition(0);
+	rear_right_motor->SetPosition(0);
 }
 
 void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_left_speed, float rear_right_speed)
@@ -35,6 +39,22 @@ void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_
 void DriveTrain::MoveTo(float distance, float angle=0.0)
 {
 
+}
+
+void DriveTrain::SkateRight(float speed)
+{
+	front_left_motor->Set(speed);
+	front_right_motor->Set(speed);
+	rear_left_motor->Set(-speed);
+	rear_right_motor->Set(-speed);
+
+}
+void DriveTrain::SkateLeft(float speed)
+{
+	front_left_motor->Set(-speed);
+	front_right_motor->Set(-speed);
+	rear_left_motor->Set(speed);
+	rear_right_motor->Set(speed);
 }
 void DriveTrain::Stop()
 {
