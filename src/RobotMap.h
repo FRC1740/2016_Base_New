@@ -24,9 +24,6 @@
 #define SHOOTER_MOTOR_ID 6
 #define SHOOTER_COUNTER_DIO_PORT 0
 #define GATE_MOTOR_ID 7
-// Shooting Range in Inches
-#define MIN_RANGE 46
-#define MAX_RANGE 56
 
 
 // 2017 - Using new IMU instead of analog gyro
@@ -43,8 +40,9 @@
 #define ROBORIO_ANALOG_THREE 4
 
 // Rangefinder Subsystem
-#define LIGHT_BAR_RELAY_PORT 0
+#define BOILER_RANGE_LIGHT_RELAY_PORT 0
 #define GEAR_LIGHT_RELAY_PORT 1
+#define DOOR_SOLENOID_RELAY_PORT 2
 
 // DIO Ports for Ultrasonic Rangefinder
 #define BOILER_RANGE_OUTPUT_PORT 8

@@ -10,6 +10,7 @@ autoMoveToShootRange::autoMoveToShootRange() {
 	Requires(shooter);
 	startingRange = shooter->GetRangeInches(); // Distance to boiler
 	currentRange = startingRange;
+	previousRange = currentRange;
 	speed = 0.0;
 }
 
@@ -24,6 +25,7 @@ void autoMoveToShootRange::Initialize() {
 	{
 		speed = .2 * TOWARD_BOILER;
 	}
+	SetTimeout(0.5); // Period to check distance
 }
 
 // Called repeatedly when this Command is scheduled to run

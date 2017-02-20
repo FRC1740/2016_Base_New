@@ -23,17 +23,19 @@ void Shoot::Execute()
 	if (motorRPM >= OPTIMUM_SHOOTER_RPM)
 	{
 		// Yes, use standard power
-		shooter->Shoot(1.0);
+		shooter->Shoot(SHOOT_POWER);
+		utility->gearLightOn(); // Double Duty used to indicate motor up to speed
 	}
 	else
 	{
 		// If not, bump up the power as much as necessary (or possible)
-		shooter->Shoot(OPTIMUM_SHOOTER_RPM/motorRPM);
+		shooter->Shoot(OPTIMUM_SHOOTER_RPM/motorRPM * SHOOT_POWER);
+		utility->gearLightOff(); // Double Duty used to indicate motor up to speed
 	}
 	if (IsTimedOut())
 	{
-		utility->gearLightOn(); // FIXME: Remove/Just for testing
-		shooter->FeederStart(); // FIXME: Add this for real robot
+		utility->gearLightOn(); // Double Duty used to indicate motor up to speed
+//		shooter->FeederStart(); // Isolated into it's own function & OI button
 	}
 	sprintf(motorRPMString, "%6.2f RPM", motorRPM);
 	printf(motorRPMString);
@@ -41,23 +43,24 @@ void Shoot::Execute()
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool Shoot::IsFinished() {
+bool Shoot::IsFinished()
+{
 	return false;
 }
 
 // Called once after isFinished returns true
-void Shoot::End() {
-
+void Shoot::End()
+{
 	shooter->Stop();
-	utility->gearLightOff(); // FIXME: Remove/Just for testing
-	shooter->FeederStop(); // FIXME: Add this for real robot
+	utility->gearLightOff(); // Double Duty used to indicate motor up to speed
+//	shooter->FeederStop(); // Isolated into it's own function & OI button
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void Shoot::Interrupted() {
-
+void Shoot::Interrupted()
+{
 	shooter->Stop();
-	utility->gearLightOff(); // FIXME: Remove/Just for testing
-	shooter->FeederStop(); // FIXME: Add this for real robot
+	utility->gearLightOff(); // Double Duty used to indicate motor up to speed
+//	shooter->FeederStop();  // Isolated into it's own function & OI button
 }

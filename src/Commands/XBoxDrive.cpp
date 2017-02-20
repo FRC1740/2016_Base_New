@@ -3,24 +3,42 @@
 #include "OI.h"
 #include "math.h"
 
+/*
+ * XBox Controller uses three axes very much like a 3 Axis joystick.
+ * Axis 0 = Left Stick X Axis (Move/Strafe Left/Right)
+ * Axis 1 = Left Stick Y Axis (Move Fwd/Rev)
+ * Axis 4 = Right Stick X Axis (Turn/twist Left/Right)
+ */
+
 XBoxDrive::XBoxDrive()
 {
 	Requires(drivetrain);
+	saucerAngle = 0.0;
+	prevAngle = 0.0;
 }
 
 void XBoxDrive::Initialize()
 {
 	datalogger->Log("XBoxDrive::Initialize()", STATUS_MESSAGE);
+	drivetrain->imu->Reset();
+	saucerAngle = 0.0;
+	prevAngle = 0.0;
 }
 
 void XBoxDrive::Execute()
 {
+	char gyroString[128];
+
 	datalogger->Log("XBoxDrive::Execute()", VERBOSE_MESSAGE);
 
-	// XBox Controller uses three axes very much like a 3 Axis joystick.
-	// Axis 0 = Left Stick X Axis (Move/Strafe Left/Right)
-	// Axis 1 = Left Stick Y Axis (Move Fwd/Rev)
-	// Axis 4 = Right Stick X Axis (Turn/twist Left/Right)
+	saucerAngle = drivetrain->imu->GetAngleZ()/4.0;
+	if (abs(saucerAngle  - prevAngle) > .1)
+	{
+		prevAngle = saucerAngle;
+		printf("XBoxDrive::Execute() saucerAngle = %5.2f\n", saucerAngle);
+		sprintf(gyroString, "%5.2f degrees", saucerAngle);
+		SmartDashboard::PutString("Gyro Angle: ", gyroString);
+	}
 
 	float x = 0, y = 0, t = 0; // floats for the axes x, y, twist
 	float fl = 0, fr = 0, rl = 0, rr = 0; // floats for the motor outputs

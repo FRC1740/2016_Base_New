@@ -5,6 +5,9 @@
 #include <Commands/Shoot.h>
 #include <Commands/BoilerRangeLight.h>
 #include <Commands/GearLight.h>
+#include <Commands/ShooterFeed.h>
+#include <Commands/ShooterUnFeed.h>
+#include <Commands/ShooterDoorOpen.h>
 #include "OI.h"
 
 OI::OI()
@@ -26,24 +29,31 @@ OI::OI()
 	launchPad = new Joystick(0);
 
 	// Camera Rotation
-	CameraTurnLeft = new JoystickButton(xboxController, 5);
-	CameraTurnRight = new JoystickButton(xboxController, 6);
+	// CameraTurnLeft = new JoystickButton(xboxController, 5);
+	// CameraTurnRight = new JoystickButton(xboxController, 6);
 
-//	CameraTurnLeft->WhenPressed(new CameraTurn(-1.0)); // Turn Left
-//	CameraTurnRight->WhenPressed(new CameraTurn(1.0)); // Turn Right
+	//	CameraTurnLeft->WhenPressed(new CameraTurn(-1.0)); // Turn Left
+	//	CameraTurnRight->WhenPressed(new CameraTurn(1.0)); // Turn Right
 
 	// Shooter
-	shootXBox = new JoystickButton(xboxController, 2);
-	shootXBox->ToggleWhenPressed(new Shoot());
-	shoot3Axis = new JoystickButton(threeAxisJoystick, 1);
-	shoot3Axis->ToggleWhenPressed(new Shoot());
+	XBoxLeftBumper = new JoystickButton(xboxController, 5);
+	XBoxRightBumper = new JoystickButton(xboxController, 6);
+	XBoxLeftBumper->WhileHeld(new shooterUnFeed());
+	XBoxRightBumper->WhileHeld(new shooterFeed());
+
+	ThreeAxisTrigger = new JoystickButton(threeAxisJoystick, 1);
+	ThreeAxisTrigger->WhileHeld(new shooterFeed());
 
 	// Climb & Descend
-	climb = new JoystickButton(NESController, 2);
-	descend = new JoystickButton(NESController, 3);
+	climb = new JoystickButton(NESController, 9);
+	descend = new JoystickButton(NESController, 10);
+	shoot = new JoystickButton(NESController, 2);
+	door = new JoystickButton(NESController, 3);
 
 	climb->WhenPressed(new Climb());
 	descend->WhenPressed(new Descend());
+	shoot->ToggleWhenPressed(new Shoot());
+	door->WhileHeld(new shooterDoorOpen());
 
 	// Light for "Gear Ready to Raise"
 	gearLightButtonXBox = new JoystickButton(xboxController, 1);
