@@ -25,7 +25,8 @@ autoGroupShootRed::autoGroupShootRed()
 	// Here is what we need to do
 	// First Ensure we are in position to shoot
 
-	AddSequential(new autoSkate(LEFT, (float)0.2, (float)1.5)); // Direction/Speed/Distance (time)
-	AddSequential(new autoMoveToShootRange());
-	AddSequential(new autoShoot(10));
+	// Skate Left at 20% speed to a distance of 24 inches
+	// AddSequential(new autoSkate(LEFT, (float)0.4, (float)48));
+	// AddSequential(new autoMoveToShootRange());
+	AddSequential(new autoShoot(4.5));
 }
