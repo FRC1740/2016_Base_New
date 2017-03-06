@@ -3,6 +3,8 @@
 
 #define LEFT 1.0
 #define RIGHT -1.0
+#define FORWARD 1.0
+#define REVERSE -1.0
 #define WHEEL_DISTANCE_FACTOR 3.14159268/1000
 
 #include "../CommandBase.h"

@@ -19,8 +19,8 @@ public:
 
 	// Configure buttons which will perform specific tasks
 	// The following rotate the camera
-	JoystickButton *CameraTurnLeft;
-	JoystickButton *CameraTurnRight;
+	// JoystickButton *CameraTurnLeft;
+	// JoystickButton *CameraTurnRight;
 
 	// Climber buttons up/down
 	JoystickButton *climb;
@@ -33,11 +33,13 @@ public:
 	JoystickButton *XBoxRightBumper;
 	JoystickButton *ThreeAxisTrigger;
 
+	// Reverse Drive Direction
+	JoystickButton *XBoxYButton;
+
 	// Button mapping for door solenoid open/close
 	// Map buttons for turning in gear light
 	JoystickButton *gearLightButtonXBox;
 	JoystickButton *gearLightButton3Axis;
-
 //	JoystickButton *threeAxis5;
 //	JoystickButton *threeAxis6;
 };

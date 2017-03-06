@@ -24,9 +24,10 @@ autoGroupShootRed::autoGroupShootRed()
 
 	// Here is what we need to do
 	// First Ensure we are in position to shoot
-
-	// Skate Left at 20% speed to a distance of 24 inches
-	// AddSequential(new autoSkate(LEFT, (float)0.4, (float)48));
+	// Skate Left at 40% speed to a distance of 24 inches
+	AddSequential(new autoSkate(LEFT, (float)0.4, (float)48));
+	// Check range to boiler & move forward/back as necessary
 	// AddSequential(new autoMoveToShootRange());
+	// Spin up & shoot
 	AddSequential(new autoShoot(4.5));
 }

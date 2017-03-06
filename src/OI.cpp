@@ -8,6 +8,7 @@
 #include <Commands/ShooterFeed.h>
 #include <Commands/ShooterUnFeed.h>
 #include <Commands/ShooterDoorOpen.h>
+#include <Commands/XBoxReverseDrive.h>
 #include "OI.h"
 
 OI::OI()
@@ -41,6 +42,9 @@ OI::OI()
 	XBoxLeftBumper->WhileHeld(new shooterUnFeed());
 	XBoxRightBumper->WhileHeld(new shooterFeed());
 
+	XBoxYButton = new JoystickButton(xboxController, 4);
+	XBoxYButton->WhenReleased(new XBoxReverseDrive());
+
 	ThreeAxisTrigger = new JoystickButton(threeAxisJoystick, 1);
 	ThreeAxisTrigger->WhileHeld(new shooterFeed());
 
@@ -53,7 +57,7 @@ OI::OI()
 	climb->WhenPressed(new Climb());
 	descend->WhenPressed(new Descend());
 	shoot->ToggleWhenPressed(new Shoot());
-	door->WhileHeld(new shooterDoorOpen());
+	door->ToggleWhenPressed(new shooterDoorOpen());
 
 	// Light for "Gear Ready to Raise"
 	gearLightButtonXBox = new JoystickButton(xboxController, 1);

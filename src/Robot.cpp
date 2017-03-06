@@ -5,6 +5,8 @@
 #include "Commands/autoGroupBaseline.h"
 #include "Commands/autoGroupShootRed.h"
 #include "Commands/autoMove.h"
+#include "Commands/autoMoveDistance.h"
+#include "Commands/autoSkate.h"
 #include "Commands/StandardTankDrive.h"
 #include "Commands/MecanumTankDrive.h"
 #include "Commands/ThreeAxisDrive.h"
@@ -62,7 +64,7 @@ private:
 		autonomouschooser = new SendableChooser<Command*>;
 		autonomouschooser->AddDefault("Do Nothing", new autoNothing(15));
 		autonomouschooser->AddObject("Baseline", new autoGroupBaseline());
-		autonomouschooser->AddObject("Gear", new autoNothing(15));
+		autonomouschooser->AddObject("Gear", new autoMoveDistance(REVERSE, .4, 80));
 		autonomouschooser->AddObject("Red Alliance Shoot", new autoGroupShootRed());
 		autonomouschooser->AddObject("Blue Alliance Shoot", new autoNothing(15));
 		SmartDashboard::PutData("Autonomous", autonomouschooser);

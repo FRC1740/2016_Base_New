@@ -19,6 +19,8 @@ public:
 	float GetX();
 	float GetY();
 	float GetTwist();
+	// Forward is normally toward gear
+	bool reversed = false;
 	float gfl = 0, gfr = 0, grl = 0, grr = 0; // Used to log/display motor outputs
 	double saucerAngle;
 	double prevAngle;
