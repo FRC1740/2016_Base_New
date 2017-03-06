@@ -12,6 +12,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 	imu = new ADIS16448_IMU();
 	imu->Reset();
 	gyroAngle = 0.0;
+	reversed = false;
 
 	// CRE: 2017-02-17 Initialize the encoder position so we can (hopefully) tell how far we've moved
 	front_left_motor->SetPosition(0);
@@ -23,15 +24,30 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_left_speed, float rear_right_speed)
 {
 
-	// This drivetrain code assumes motors are mounted INBOARD and shafts point OUTBOARD
-	// Left side motors fwd = robot fwd...
-	front_left_motor->Set(front_left_speed);
-	rear_left_motor->Set(rear_left_speed);
+	if (!reversed)
+	{
+		// This drivetrain code assumes motors are mounted INBOARD and shafts point OUTBOARD
+		// Left side motors fwd = robot fwd...
+		front_left_motor->Set(front_left_speed);
+		rear_left_motor->Set(rear_left_speed);
 
-	// Invert the direction of the motors on the right side so motor reverse = robot fwd
-	front_right_motor->Set(-1 * front_right_speed);
-	rear_right_motor->Set(-1 * rear_right_speed);
+		// Invert the direction of the motors on the right side so motor reverse = robot fwd
+		front_right_motor->Set(-1 * front_right_speed);
+		rear_right_motor->Set(-1 * rear_right_speed);
+		printf("STANDARD DRIVE\n");
+	}
+	else
+	{
+		// This drivetrain code assumes motors are mounted INBOARD and shafts point OUTBOARD
+		// Left side motors fwd = robot fwd...
+		front_left_motor->Set(-1 * rear_right_speed);
+		rear_left_motor->Set(-1 * front_right_speed);
 
+		// Invert the direction of the motors on the right side so motor reverse = robot fwd
+		front_right_motor->Set(rear_left_speed);
+		rear_right_motor->Set(front_left_speed);
+		printf("REVERSE DRIVE\n");
+	}
 	// CRE: 2017-02-17 This should show us if the encoder is working
 	SmartDashboard::PutNumber("Wheel Position: ", rear_left_motor->GetPosition());
 }
@@ -55,6 +71,10 @@ void DriveTrain::SkateLeft(float speed)
 	front_right_motor->Set(-speed);
 	rear_left_motor->Set(speed);
 	rear_right_motor->Set(speed);
+}
+void DriveTrain::ReverseDirection()
+{
+	reversed = !reversed;
 }
 void DriveTrain::Stop()
 {
