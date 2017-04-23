@@ -16,11 +16,13 @@ public:
 	CANTalon *rear_left_motor;
 	ADIS16448_IMU *imu;
 	double gyroAngle;
+	char gyroString[128];
 	bool reversed;
 	DriveTrain();
 	void Go(float, float, float, float);
 	// Hoping to use this for encoder-feedback auto-move
 	// arg1: distance, arg2: angle
+	double GetGyroAngle(void);
 	void MoveTo(float, float);
 	void SkateRight(float);
 	void SkateLeft(float);

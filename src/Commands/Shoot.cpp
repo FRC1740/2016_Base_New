@@ -19,24 +19,20 @@ void Shoot::Execute()
 {
 	char motorRPMString[64] = "";
 	double motorRPM = shooter->GetRPM();
-	// Are we going at optimum speed?
-	if (motorRPM >= OPTIMUM_SHOOTER_RPM)
+	// Adjust power if shooter motor is running at less than optimum speed
+	// Shooter counter not working?
+//	shooter->Shoot(SHOOT_POWER);
+	if (OPTIMUM_SHOOTER_RPM > motorRPM)
 	{
-		// Yes, use standard power
-		shooter->Shoot(SHOOT_POWER);
-		utility->gearLightOn(); // Double Duty used to indicate motor up to speed
+		shooter->Shoot(OPTIMUM_SHOOTER_RPM/motorRPM * SHOOT_POWER);
+		utility->gearLightOff();
 	}
 	else
 	{
-		// If not, bump up the power as much as necessary (or possible)
-		shooter->Shoot(OPTIMUM_SHOOTER_RPM/motorRPM * SHOOT_POWER);
-		utility->gearLightOff(); // Double Duty used to indicate motor up to speed
+		shooter->Shoot(SHOOT_POWER);
+		utility->gearLightOn();
 	}
-	if (IsTimedOut())
-	{
-		utility->gearLightOn(); // Double Duty used to indicate motor up to speed
-//		shooter->FeederStart(); // Isolated into it's own function & OI button
-	}
+
 	sprintf(motorRPMString, "%6.2f RPM", motorRPM);
 	printf(motorRPMString);
 	SmartDashboard::PutString("Shooter Speed: ", motorRPMString);
@@ -53,7 +49,6 @@ void Shoot::End()
 {
 	shooter->Stop();
 	utility->gearLightOff(); // Double Duty used to indicate motor up to speed
-//	shooter->FeederStop(); // Isolated into it's own function & OI button
 }
 
 // Called when another command which requires one or more of the same
@@ -61,6 +56,5 @@ void Shoot::End()
 void Shoot::Interrupted()
 {
 	shooter->Stop();
-	utility->gearLightOff(); // Double Duty used to indicate motor up to speed
-//	shooter->FeederStop();  // Isolated into it's own function & OI button
+	utility->gearLightOff();
 }

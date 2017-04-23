@@ -3,8 +3,6 @@
 
 #include "../CommandBase.h"
 
-#define OPTIMUM_SHOOTER_RPM (double)3200 // FIXME: Calibrate for actual 'bot
-
 class Shoot : public CommandBase {
 public:
 	Shoot();
@@ -13,6 +11,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+	void forceQuit();
 };
 
 #endif  // Shoot_H

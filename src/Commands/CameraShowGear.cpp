@@ -1,7 +1,7 @@
 #include "CameraShowGear.h"
 
 CameraShowGear::CameraShowGear() {
-	Requires(camera);
+//	Requires(camera);
 }
 
 // Called just before this Command runs the first time
@@ -11,7 +11,7 @@ void CameraShowGear::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void CameraShowGear::Execute() {
 
-	camera->ShowGear();
+//	camera->ShowGear();
 	return;
 }
 

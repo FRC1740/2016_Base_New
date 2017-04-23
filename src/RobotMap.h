@@ -30,7 +30,6 @@
 // Drivetrain Gyro for Steering Correction
 // #define ANALOG_GYRO_PORT 0
 
-#define ANGLE_CORRECTION 5; // offsets straight by x degrees clockwise
 // TODO VECTORIZE JOYSTICK INPUTS
 
 // CRE 2017-02-04: Analog Port 0 on the RoboRio is Number 1 in the C++ Library. Go figure...

@@ -1,7 +1,7 @@
 #include <Commands/CameraShowClimber.h>
 
 CameraShowClimber::CameraShowClimber(){
-	Requires(camera);
+//	Requires(camera);
 }
 
 // Called just before this Command runs the first time
@@ -12,7 +12,7 @@ void CameraShowClimber::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void CameraShowClimber::Execute() {
 
-	camera->ShowClimber();
+//	camera->ShowClimber();
 	return;
 }
 

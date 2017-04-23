@@ -4,7 +4,7 @@ autoMove::autoMove(int a, float s, double time)
 {
 	Requires(drivetrain);
 	speed = s;
-	angle = (a % 360) + ANGLE_CORRECTION; // simplify angle
+	angle = a % 360; // simplify angle
 	left = 1.0;
 	right = 1.0;
 	SetTimeout(time);
@@ -15,7 +15,15 @@ autoMove::autoMove(int a, float s, double time)
 
 void autoMove::Initialize()
 {
+	drivetrain->imu->Reset();
+}
 
+void autoMove::Execute()
+{
+
+	// Adjust angle based on imu feedback
+//	angle = (int)drivetrain->GetGyroAngle();
+	angle = 0;
 	/*
 	 * This code was designed to autocorrect for a slight "pull" to the left or right.
 	 * it works, but does not allow us to "skate" at an angle.
@@ -29,8 +37,8 @@ void autoMove::Initialize()
 	 * right side wheels are basically stopped. Did not try any other angles.
 	 */
 
-	// TODO there must be a nicer way to do this, but this works -ktk
 
+	// TODO there must be a nicer way to do this, but this works -ktk
 	if (angle <= 90){
 		left = 1;
 		right = (((90.0 - angle) / 90.0) * 2) - 1; // do some range shifting to make it a float between -1 and 1
@@ -47,10 +55,7 @@ void autoMove::Initialize()
 		left = (((360.0 - angle) / 90.0) * -2) + 1;
 		right = 1;
 	}
-}
 
-void autoMove::Execute()
-{
 	// The drivetrain->Go method has built-in reversal for motors on "wrong" side
 	drivetrain->Go(left * speed, right * speed, left * speed, right * speed);
 	return;

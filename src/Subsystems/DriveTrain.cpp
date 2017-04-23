@@ -23,6 +23,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain")
 
 void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_left_speed, float rear_right_speed)
 {
+	this->GetGyroAngle();
 
 	if (!reversed)
 	{
@@ -34,7 +35,7 @@ void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_
 		// Invert the direction of the motors on the right side so motor reverse = robot fwd
 		front_right_motor->Set(-1 * front_right_speed);
 		rear_right_motor->Set(-1 * rear_right_speed);
-		printf("STANDARD DRIVE\n");
+//		printf("STANDARD DRIVE\n");
 	}
 	else
 	{
@@ -46,12 +47,20 @@ void DriveTrain::Go(float front_left_speed, float front_right_speed, float rear_
 		// Invert the direction of the motors on the right side so motor reverse = robot fwd
 		front_right_motor->Set(rear_left_speed);
 		rear_right_motor->Set(front_left_speed);
-		printf("REVERSE DRIVE\n");
+//		printf("REVERSE DRIVE\n");
 	}
 	// CRE: 2017-02-17 This should show us if the encoder is working
 	SmartDashboard::PutNumber("Wheel Position: ", rear_left_motor->GetPosition());
 }
 
+double DriveTrain::GetGyroAngle()
+{
+	gyroAngle = imu->GetAngleZ()/4.0;
+//	printf("XBoxDrive::Execute() gyroAngle = %5.2f\n", gyroAngle);
+	sprintf(gyroString, "%5.2f degrees", gyroAngle);
+	SmartDashboard::PutString("Gyro Angle: ", gyroString);
+	return (gyroAngle);
+}
 void DriveTrain::MoveTo(float distance, float angle=0.0)
 {
 

@@ -28,9 +28,9 @@ void Shooter::InitDefaultCommand() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-void Shooter::Shoot(double factor = 1.0)
+void Shooter::Shoot(float power)
 {
-	shootMotor->Set(SHOOT_POWER * factor);
+	shootMotor->Set(power);
 }
 void Shooter::Stop()
 {

@@ -3,7 +3,7 @@
 ThreeAxisDrive::ThreeAxisDrive()
 {
 	Requires(drivetrain);
-	Requires(camera);
+//	Requires(camera);
 }
 
 void ThreeAxisDrive::Initialize()
@@ -56,6 +56,7 @@ void ThreeAxisDrive::Execute()
 	drivetrain->rear_right_motor->Set(oi->threeAxisJoystick->GetTwist() + oi->threeAxisJoystick->GetY() - oi->threeAxisJoystick->GetX());
 	*/
 
+	/*
 	inputPOV = oi->threeAxisJoystick->GetPOV();
 
 	if (inputPOV < -45 && inputPOV > -125) // Turn Camera Left
@@ -66,6 +67,7 @@ void ThreeAxisDrive::Execute()
 	{
 			camera->TurnRight();
 	}
+	*/
 }
 
 bool ThreeAxisDrive::IsFinished()
