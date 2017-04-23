@@ -11,7 +11,8 @@
 #define MAX_RANGE 65
 
 // Starting power for calibrated distance to target
-#define SHOOT_POWER 0.6
+#define SHOOT_POWER 0.4
+#define OPTIMUM_SHOOTER_RPM (double)1500 // FIXME: Calibrate for actual 'bot
 
 // Calibrated based on measured distance
 #define IN_FACTOR 1 / .00625
@@ -31,7 +32,7 @@ private:
 public:
 	Shooter();
 	void InitDefaultCommand();
-	void Shoot(double); // power multiplier
+	void Shoot(float);
 	void Stop();
 	double GetRPM(); // Show shooter RPM
 	void FeederStart();

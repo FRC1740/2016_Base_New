@@ -3,12 +3,15 @@
 
 #include "../CommandBase.h"
 
-#define FORWARD 1.0
-#define REVERSE -1.0
+#define FORWARD 0
+#define REVERSE 180
+#define RIGHT 90
+#define LEFT -90
 
 #include "math.h"
 
-#define WHEEL_DISTANCE_FACTOR M_PI/225
+// #define WHEEL_DISTANCE_FACTOR 3.14159268/523
+#define WHEEL_DISTANCE_FACTOR M_PI/523
 
 class autoMoveDistance : public CommandBase {
 public:
@@ -18,7 +21,8 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-	float direction, speed, distance;
+	int angle;
+	float speed, distance, left, right;
 };
 
 #endif  // autoMoveDistance_H

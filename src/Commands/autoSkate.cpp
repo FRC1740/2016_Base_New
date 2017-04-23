@@ -24,7 +24,7 @@ void autoSkate::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void autoSkate::Execute() {
 
-	if (direction == LEFT)
+	if (direction == SKATELEFT)
 		drivetrain->SkateLeft(speed);
 	else
 		drivetrain->SkateRight(speed);

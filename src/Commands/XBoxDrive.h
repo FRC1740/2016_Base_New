@@ -24,6 +24,7 @@ public:
 	float gfl = 0, gfr = 0, grl = 0, grr = 0; // Used to log/display motor outputs
 	double saucerAngle;
 	double prevAngle;
+	char gyroString[128];
 	void Initialize();
 	void Execute();
 	bool IsFinished();

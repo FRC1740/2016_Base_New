@@ -4,14 +4,23 @@
 #include "Commands/autoNothing.h"
 #include "Commands/autoGroupBaseline.h"
 #include "Commands/autoGroupShootRed.h"
+#include "Commands/autoGroupShootBlue.h"
 #include "Commands/autoMove.h"
 #include "Commands/autoMoveDistance.h"
 #include "Commands/autoSkate.h"
+#include "Commands/autoGroupGear.h"
 #include "Commands/StandardTankDrive.h"
 #include "Commands/MecanumTankDrive.h"
 #include "Commands/ThreeAxisDrive.h"
 #include "Commands/XBoxDrive.h"
 #include "Commands/XBoxSaucer.h"
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+
+// CRE 03-25-17 Experimental Vision Processing
+//#include "vision/VisionPipeline.h"
+//#include "vision/VisionRunner.h"
+
 // #include "ADIS16448_IMU.h"
 
 /*
@@ -26,7 +35,10 @@
  */
 
 class CommandBasedRobot : public IterativeRobot {
+
+
 private:
+
 	// TODO can i initialize a pointer to datalogger here?
 	Command *autonomousCommand;
 	Command *teleopcommand;
@@ -37,18 +49,40 @@ private:
 	SendableChooser<Command*> *drivemodechooser;
 	SendableChooser<Command*> *autonomouschooser;
 	// IMU Really needs to be part of the drivetrain subsystem
-	// double gyroAngle;
-	// ADIS16448_IMU *imu = new ADIS16448_IMU;
-	// char gyroString[64] = "";
+	double gyroAngle;
+	char gyroString[64] = "";
 	double shooterSpeed;
 	char shooterSpeedString[64] = "";
 
+	// Experimental Vision Tracking from ScreenStepsLive example
+	// Use a separate thread so we don't choke the Robot thread
+    static void VisionThread()
+    {
+        cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
+        camera.SetResolution(640, 480);
+        cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+        cs::CvSource outputStreamStd = CameraServer::GetInstance()->PutVideo("Gray", 640, 480);
+        cv::Mat source;
+        cv::Mat output;
+        while(true) {
+            cvSink.GrabFrame(source);
+            if (!source.empty()) {
+            	cvtColor(source, output, cv::COLOR_BGR2GRAY);
+            }
+            else {
+            	cvSink.GrabFrame(output);
+            }
+            outputStreamStd.PutFrame(output);
+        }
+    }
+
 	virtual void RobotInit()
 	{
-//		logger->Log("RobotInit()", STATUS_MESSAGE);
+		// The following two lines from the screensteps live example cause the code to crash.
+		// std::thread visionThread(VisionThread);
+		// visionThread.detach();
+
 		CommandBase::init();
-		// imu->Reset();
-		// gyroAngle = 0.0;
 		shooterSpeed = 0.0;
 //		SmartDashboard::init(); // i guess we init the smart dash here.... idk where else to do it, idk if its necessary
 
@@ -60,51 +94,39 @@ private:
 		drivemodechooser->AddObject("Xbox Saucer", new XBoxSaucer());
 		SmartDashboard::PutData("Drive Mode", drivemodechooser);
 
-//		->Log("added objects", VERBOSE_MESSAGE);
-		autonomouschooser = new SendableChooser<Command*>;
+		autonomouschooser = new SendableChooser<Command *>;
 		autonomouschooser->AddDefault("Do Nothing", new autoNothing(15));
 		autonomouschooser->AddObject("Baseline", new autoGroupBaseline());
-		autonomouschooser->AddObject("Gear", new autoMoveDistance(REVERSE, .4, 80));
-		autonomouschooser->AddObject("Red Alliance Shoot", new autoGroupShootRed());
-		autonomouschooser->AddObject("Blue Alliance Shoot", new autoNothing(15));
+		autonomouschooser->AddObject("Left Gear", new autoGroupGear(LEFTGEAR));
+		autonomouschooser->AddObject("Center Gear", new autoMove(0, .4, 1.6));
+		autonomouschooser->AddObject("Right Gear", new autoGroupGear(RIGHTGEAR));
+		autonomouschooser->AddObject("Shoot", new autoGroupShootRed());
 		SmartDashboard::PutData("Autonomous", autonomouschooser);
 
-		lw = LiveWindow::GetInstance();
-		cs::UsbCamera fwdCam = CameraServer::GetInstance()->StartAutomaticCapture(0);
+		// Uncomment this if we are using pneumatics
+		cs::UsbCamera fwdCam = CameraServer::GetInstance()->StartAutomaticCapture();
 		// It is possible to use two cameras, but bandwidth is an issue.
 //		cs::UsbCamera revCam = CameraServer::GetInstance()->StartAutomaticCapture(1);
+		//		compressor = new Compressor();
+//		compressor->Start();
 
-		// Uncomment this if we are using pneumatics
-//		compressor = new Compressor();
 	}
 	
 	virtual void AutonomousInit()
 	{
-//		->Log("AutonomousInit()",STATUS_MESSAGE);
-//		->Log("Starting Compressor", STATUS_MESSAGE);
-//		compressor->Start();
 		autonomousCommand = (Command *) autonomouschooser->GetSelected();
-		// gyroAngle = 0.0;
-		// imu->Reset();
-		// sprintf(gyroString, "%5.2f degrees", gyroAngle);
-		Wait(1.0);
-		// SmartDashboard::PutString("Gyro Angle: ", gyroString);
 		autonomousCommand->Start();
 	}
 
 	virtual void AutonomousPeriodic()
 	{
 		Scheduler::GetInstance()->Run(); // FIXME: What does this do?
-		// gyroAngle = imu->GetAngleZ()/4.0;
-		// sprintf(gyroString, "%5.2f degrees", gyroAngle);
-		// SmartDashboard::PutString("Gyro Angle: ", gyroString);
 	}
 
 	virtual void TeleopInit()
 	{
 		teleopcommand = (Command *) drivemodechooser->GetSelected();
 		teleopcommand->Start();
-
 	}
 
 	virtual void TeleopPeriodic()
@@ -117,7 +139,7 @@ private:
 
 	virtual void TestInit()
 	{
-
+		lw = LiveWindow::GetInstance();
 	}
 
 	virtual void TestPeriodic()

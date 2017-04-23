@@ -11,6 +11,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+	float secondTimeout;
 };
 
 #endif  // autoShoot_H

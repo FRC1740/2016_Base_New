@@ -4,7 +4,7 @@ CameraTurn::CameraTurn(float a)
 {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(camera);
+//	Requires(camera);
 	Angle = a;
 }
 
@@ -17,10 +17,12 @@ void CameraTurn::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void CameraTurn::Execute()
 {
+	/*
 	if (Angle < 0)
 		camera->TurnLeft();
 	else if (Angle > 0)
 		camera->TurnRight();
+	*/
 }
 
 // Make this return true when this Command no longer needs to run execute()

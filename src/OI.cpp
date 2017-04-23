@@ -43,7 +43,7 @@ OI::OI()
 	XBoxRightBumper->WhileHeld(new shooterFeed());
 
 	XBoxYButton = new JoystickButton(xboxController, 4);
-	XBoxYButton->WhenReleased(new XBoxReverseDrive());
+//	XBoxYButton->WhenReleased(new XBoxReverseDrive());
 
 	ThreeAxisTrigger = new JoystickButton(threeAxisJoystick, 1);
 	ThreeAxisTrigger->WhileHeld(new shooterFeed());
