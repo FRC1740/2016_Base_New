@@ -1,2 +1,2 @@
-# 2016_Base_New
+# FRC 2018 Robotics Competition - Team 1740 CommandBase Robot Code
 - This is the "base" code for the command based robot which should be general enough to start with in any given year
